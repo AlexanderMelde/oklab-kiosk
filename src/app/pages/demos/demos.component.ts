@@ -89,6 +89,18 @@ export class DemosComponent implements OnInit, OnDestroy {
   private rotationInterval: any = null;
 
   ngOnInit(): void {
+    // Select specific demo if promoted via query parameter
+    const item = this.configService.promotedItem()?.toLowerCase();
+    if (item) {
+      if (item === '1' || item === 'sensorcity' || item.includes('sensor')) {
+        this.activeDemoIndex.set(1);
+      } else if (item === '2' || item === 'heatmap' || item.includes('heat')) {
+        this.activeDemoIndex.set(2);
+      } else if (item === '0' || item === 'baumkataster' || item.includes('baum')) {
+        this.activeDemoIndex.set(0);
+      }
+    }
+
     this.updateActiveUrl();
 
     // If non-interactive mode is active, auto-cycle through demos every 30 seconds

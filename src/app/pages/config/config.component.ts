@@ -70,7 +70,7 @@ import { Router } from '@angular/router';
           <div class="grid grid-cols-2 md:grid-cols-5 gap-3 pt-2">
             <button 
               *ngFor="let opt of promoteOptions"
-              (click)="selectedPromote.set(opt.value)"
+              (click)="onPromoteSelect(opt.value)"
               [class.bg-yellow-400]="selectedPromote() === opt.value"
               [class.text-black]="selectedPromote() === opt.value"
               [class.border-white]="selectedPromote() === opt.value"
@@ -78,6 +78,43 @@ import { Router } from '@angular/router';
               [class.text-white]="selectedPromote() !== opt.value"
               class="p-4 rounded-2xl font-black text-xl border-4 transition-all text-center">
               {{ opt.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Parameter 1b: Subpage Content Level Item Selection -->
+        <div *ngIf="selectedPromote() === 'demos'" class="space-y-3 bg-black/60 p-5 rounded-2xl border-4 border-yellow-400">
+          <label class="text-xl font-black text-yellow-300 block uppercase">
+            👉 Specific Demo Item (?item=...)
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <button 
+              *ngFor="let itemOpt of demoItemOptions"
+              (click)="selectedItem.set(itemOpt.value)"
+              [class.bg-yellow-400]="selectedItem() === itemOpt.value"
+              [class.text-black]="selectedItem() === itemOpt.value"
+              [class.bg-zinc-800]="selectedItem() !== itemOpt.value"
+              [class.text-white]="selectedItem() !== itemOpt.value"
+              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
+              {{ itemOpt.label }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="selectedPromote() === 'media'" class="space-y-3 bg-black/60 p-5 rounded-2xl border-4 border-cyan-400">
+          <label class="text-xl font-black text-cyan-300 block uppercase">
+            👉 Specific Video Item (?item=...)
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <button 
+              *ngFor="let itemOpt of mediaItemOptions"
+              (click)="selectedItem.set(itemOpt.value)"
+              [class.bg-cyan-400]="selectedItem() === itemOpt.value"
+              [class.text-black]="selectedItem() === itemOpt.value"
+              [class.bg-zinc-800]="selectedItem() !== itemOpt.value"
+              [class.text-white]="selectedItem() !== itemOpt.value"
+              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
+              {{ itemOpt.label }}
             </button>
           </div>
         </div>
@@ -151,6 +188,7 @@ export class ConfigComponent {
   errorMessage = signal<string>('');
 
   selectedPromote = signal<string | null>(null);
+  selectedItem = signal<string | null>(null);
   isNonInteractive = signal<boolean>(false);
   copySuccess = signal<boolean>(false);
 
@@ -161,6 +199,25 @@ export class ConfigComponent {
     { label: '🎁 Raffle', value: 'raffle' },
     { label: 'ℹ️ About', value: 'about' }
   ];
+
+  readonly demoItemOptions = [
+    { label: 'All / First', value: null },
+    { label: 'Baumkataster', value: 'baumkataster' },
+    { label: 'SensorCity', value: 'sensorcity' },
+    { label: 'Heatmap', value: 'heatmap' }
+  ];
+
+  readonly mediaItemOptions = [
+    { label: 'All / First', value: null },
+    { label: 'Hack Days 2024', value: '0' },
+    { label: 'DAS FEST 2025', value: '1' },
+    { label: 'Hack Days 2026', value: '2' }
+  ];
+
+  onPromoteSelect(value: string | null): void {
+    this.selectedPromote.set(value);
+    this.selectedItem.set(null);
+  }
 
   unlock(): void {
     if (this.passwordInput === 'oklab') {
@@ -177,6 +234,10 @@ export class ConfigComponent {
 
     if (this.selectedPromote()) {
       params.push(`promote=${this.selectedPromote()}`);
+    }
+
+    if (this.selectedItem()) {
+      params.push(`item=${this.selectedItem()}`);
     }
 
     if (this.isNonInteractive()) {
@@ -202,6 +263,9 @@ export class ConfigComponent {
     const params: any = {};
     if (this.selectedPromote()) {
       params.promote = this.selectedPromote();
+    }
+    if (this.selectedItem()) {
+      params.item = this.selectedItem();
     }
     if (this.isNonInteractive()) {
       params.nonInteractive = 'true';

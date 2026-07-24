@@ -102,6 +102,18 @@ export class MediaComponent implements OnInit, OnDestroy {
   private rotationInterval: any = null;
 
   ngOnInit(): void {
+    // Select specific video if promoted via query parameter
+    const item = this.configService.promotedItem()?.toLowerCase();
+    if (item) {
+      if (item === '1' || item.includes('2025') || item.includes('fest')) {
+        this.activeVideoIndex.set(1);
+      } else if (item === '2' || item.includes('2026')) {
+        this.activeVideoIndex.set(2);
+      } else if (item === '0' || item.includes('2024')) {
+        this.activeVideoIndex.set(0);
+      }
+    }
+
     this.updateActiveVideo();
 
     // Auto-cycle in non-interactive mode

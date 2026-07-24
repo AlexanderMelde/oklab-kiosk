@@ -23,13 +23,17 @@ export class App implements OnInit {
   currentPath = signal<string>('/');
 
   ngOnInit(): void {
-    // 1. Handle ?promote=... initial navigation redirection
+    // 1. Re-parse query params on load
+    this.configService.parseQueryParams();
+
+    // 2. Handle ?promote=... initial navigation redirection while preserving query params
     const promotedRoute = this.configService.getPromotedRoute();
     if (promotedRoute) {
-      this.router.navigateByUrl(promotedRoute, { replaceUrl: true });
+      const currentUrlParams = typeof window !== 'undefined' ? window.location.search : '';
+      this.router.navigateByUrl(`${promotedRoute}${currentUrlParams}`, { replaceUrl: true });
     }
 
-    // 2. Track route changes to control navbar visibility
+    // 3. Track route changes to control navbar visibility
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -39,7 +43,7 @@ export class App implements OnInit {
         this.isSubpage.set(path !== '/' && path !== '');
       });
 
-    // 3. Reset to home (or promoted route) on idle timeout
+    // 4. Reset to home (or promoted route) on idle timeout
     let previousIdle = false;
     setInterval(() => {
       const currentlyIdle = this.idleService.isIdle();
@@ -47,7 +51,8 @@ export class App implements OnInit {
         // Returned to idle state
         const targetRoute = this.configService.getPromotedRoute() || '/';
         if (this.currentPath() !== targetRoute && this.currentPath() !== '/config') {
-          this.router.navigateByUrl(targetRoute);
+          const currentUrlParams = typeof window !== 'undefined' ? window.location.search : '';
+          this.router.navigateByUrl(`${targetRoute}${currentUrlParams}`);
         }
       }
       previousIdle = currentlyIdle;
