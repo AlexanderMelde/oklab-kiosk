@@ -106,8 +106,8 @@ import { ConfigService } from '../../services/config.service';
 
       </main>
 
-      <footer class="pt-3 shrink-0 flex justify-end items-end">
-          <a routerLink="/config" class="text-yellow-400 text-2xl hover:text-yellow-300 transition-transform active:scale-90" title="Settings">⚙️</a>
+      <footer class="w-full pt-3 shrink-0 text-right flex justify-end items-center" style="display: flex; justify-content: flex-end; width: 100%; text-align: right;">
+        <a routerLink="/config" class="inline-block text-yellow-400 text-3xl hover:text-yellow-300 transition-transform active:scale-90 p-1" title="Settings">⚙️</a>
       </footer>
     </div>
   `
