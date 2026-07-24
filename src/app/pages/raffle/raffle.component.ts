@@ -21,13 +21,13 @@ import { LanguageService } from '../../services/language.service';
       </div>
 
       <!-- Center Box: Headline, Description & Giant QR Code -->
-      <div class="bg-zinc-900 border-8 border-yellow-400 rounded-3xl p-8 md:p-12 max-w-4xl w-full text-center shadow-2xl space-y-8 my-auto">
+      <div class="bg-zinc-900 border-8 border-yellow-400 rounded-3xl p-8 md:p-12 w-full text-center shadow-2xl space-y-8 my-auto">
         
         <h2 class="text-3xl md:text-5xl font-black text-white leading-tight">
           {{ lang.t().raffle.headline }}
         </h2>
 
-        <p class="text-xl md:text-3xl font-extrabold text-cyan-300 max-w-3xl mx-auto leading-relaxed">
+        <p class="text-xl md:text-3xl font-extrabold text-cyan-300 mx-auto leading-relaxed">
           {{ lang.t().raffle.description }}
         </p>
 

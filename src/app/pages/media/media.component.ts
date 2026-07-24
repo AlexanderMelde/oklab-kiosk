@@ -7,20 +7,20 @@ import { ConfigService } from '../../services/config.service';
 
 export const VIDEOS = [
   {
-    title: 'Open Data Hack Days 2024 - Aftermovie',
-    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
-    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk'
+    title: 'Hackdays 2026',
+    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
+    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao'
   },
   {
-    title: 'OK Lab Karlsruhe @ DAS FEST 2025 - Aftermovie',
+    title: 'DAS FEST 2025',
     url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
     externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A'
   },
   {
-    title: 'Open Data Hackdays Karlsruhe 2026 - Aftermovie',
-    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
-    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao'
-  }
+    title: 'Hackdays 2024',
+    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
+    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk'
+  },
 ];
 
 @Component({
@@ -79,6 +79,7 @@ export const VIDEOS = [
             *ngIf="safeUrl"
             [src]="safeUrl" 
             class="w-full h-full border-none pointer-events-none"
+            sandbox="allow-scripts allow-same-origin allow-forms"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
             allowfullscreen>
           </iframe>

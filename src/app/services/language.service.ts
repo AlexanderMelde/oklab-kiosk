@@ -66,10 +66,10 @@ const DE: Translations = {
   home: {
     welcome: 'OK Lab Karlsruhe',
     subtitle: 'Civic Tech & Open Data Kiosk',
-    videosTitle: 'Videos & Clips',
-    videosDesc: 'Aftermovies & Einblicke in unsere Projekte',
-    demosTitle: 'Interaktive Demos',
-    demosDesc: 'Teste unsere Civic Tech Prototypen direkt aus',
+    videosTitle: 'Videos',
+    videosDesc: 'Impressionen von unseren Veranstaltungen',
+    demosTitle: 'Prototypen',
+    demosDesc: 'Live-Demos unserer Projekte',
     raffleTitle: 'Gewinnspiel',
     raffleDesc: 'Mikrocontroller, Sensoren & USB-Ventilatoren gewinnen!',
     aboutTitle: 'Über uns',
@@ -81,14 +81,14 @@ const DE: Translations = {
     touchToStart: 'BERÜHREN ZUM STARTEN'
   },
   demos: {
-    title: 'Interaktive Prototypen',
-    subtitle: 'Erkunde Live-Demos des OK Lab Karlsruhe',
+    title: 'Prototypen',
+    subtitle: 'Live-Demos unserer Projekte',
     scanToOpen: 'Auf dem Smartphone öffnen:',
     openPhone: 'Scannen & selbst ausprobieren',
     selectDemo: 'Demo auswählen:'
   },
   media: {
-    title: 'Videos & Aftermovies',
+    title: 'Videos',
     subtitle: 'Impressionen von den Open Data Hack Days & DAS FEST',
     scanToWatch: 'Auf YouTube ansehen:',
     watchPhone: 'Scannen & unterwegs anschauen',
@@ -98,7 +98,7 @@ const DE: Translations = {
     headline: 'Gewinne Mikrocontroller, Sensoren & USB-Ventilatoren!',
     description: 'Teste dein Glück und erfahre mehr über Open Data & Civic Tech in Karlsruhe. Scanne einfach den QR-Code mit deinem Smartphone, um direkt am Gewinnspiel teilzunehmen!',
     callToAction: 'JETZT MITMACHEN!',
-    scanPrompt: 'Mit Smartphone scannen & gewinnen'
+    scanPrompt: 'Scannen & gewinnen'
   },
   about: {
     title: 'Über das OK Lab Karlsruhe',
@@ -120,10 +120,10 @@ const EN: Translations = {
   home: {
     welcome: 'OK Lab Karlsruhe',
     subtitle: 'Civic Tech & Open Data Kiosk',
-    videosTitle: 'Videos & Clips',
-    videosDesc: 'Aftermovies & insights into our projects',
-    demosTitle: 'Interactive Demos',
-    demosDesc: 'Try out our Civic Tech prototypes live',
+    videosTitle: 'Videos',
+    videosDesc: 'Impressions from our events',
+    demosTitle: 'Prototypes',
+    demosDesc: 'Live-Demos of our projects',
     raffleTitle: 'Raffle / Giveaway',
     raffleDesc: 'Win microcontrollers, sensors & USB fans!',
     aboutTitle: 'About Us',
@@ -135,14 +135,14 @@ const EN: Translations = {
     touchToStart: 'TOUCH HERE TO EXPLORE'
   },
   demos: {
-    title: 'Interactive Prototypes',
+    title: 'Prototypes',
     subtitle: 'Explore live demos created by OK Lab Karlsruhe',
     scanToOpen: 'Open on your smartphone:',
     openPhone: 'Scan to try it on your device',
     selectDemo: 'Select demo:'
   },
   media: {
-    title: 'Videos & Aftermovies',
+    title: 'Videos',
     subtitle: 'Impressions from Open Data Hack Days & DAS FEST',
     scanToWatch: 'Watch on YouTube:',
     watchPhone: 'Scan to watch on your phone',
@@ -152,7 +152,7 @@ const EN: Translations = {
     headline: 'Win Microcontrollers, Sensors & USB Fans!',
     description: 'Test your luck and learn about Open Data & Civic Tech in Karlsruhe. Simply scan the QR code with your smartphone to join the giveaway!',
     callToAction: 'ENTER RAFFLE NOW!',
-    scanPrompt: 'Scan with your phone to participate'
+    scanPrompt: 'Scan to participate'
   },
   about: {
     title: 'About OK Lab Karlsruhe',

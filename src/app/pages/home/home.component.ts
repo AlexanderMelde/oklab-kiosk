@@ -29,7 +29,7 @@ import { ConfigService } from '../../services/config.service';
           routerLink="/demos" 
           class="bg-gradient-to-br from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 active:scale-[0.98] text-black p-6 md:p-8 rounded-3xl border-6 md:border-8 border-white shadow-2xl flex flex-col justify-between cursor-pointer transition-all h-full w-full overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-4xl md:text-5xl">🚀</span>
+            <span class="text-4xl md:text-6xl">🚀</span>
             <span class="bg-black text-yellow-400 px-4 py-2 rounded-2xl font-black text-lg md:text-xl border-2 border-white">
               LIVE PROTOTYPEN
             </span>
@@ -49,10 +49,7 @@ import { ConfigService } from '../../services/config.service';
           routerLink="/media" 
           class="bg-gradient-to-br from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 active:scale-[0.98] text-black p-6 md:p-8 rounded-3xl border-6 md:border-8 border-white shadow-2xl flex flex-col justify-between cursor-pointer transition-all h-full w-full overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-4xl md:text-5xl">🎥</span>
-            <span class="bg-black text-cyan-400 px-4 py-2 rounded-2xl font-black text-lg md:text-xl border-2 border-white">
-              YOUTUBE CLIPS
-            </span>
+            <span class="text-4xl md:text-6xl">🎥</span>
           </div>
           <div>
             <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight leading-none mb-2">
@@ -69,7 +66,7 @@ import { ConfigService } from '../../services/config.service';
           routerLink="/raffle" 
           class="bg-gradient-to-br from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 active:scale-[0.98] text-white p-6 md:p-8 rounded-3xl border-6 md:border-8 border-yellow-400 shadow-2xl flex flex-col justify-between cursor-pointer transition-all h-full w-full overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-4xl md:text-5xl">🎁</span>
+            <span class="text-4xl md:text-6xl">🎁</span>
             <span class="bg-yellow-400 text-black px-4 py-2 rounded-2xl font-black text-lg md:text-xl border-2 border-white">
               DAS FEST SPECIAL
             </span>
@@ -89,7 +86,7 @@ import { ConfigService } from '../../services/config.service';
           routerLink="/about" 
           class="bg-gradient-to-br from-zinc-800 to-zinc-900 hover:from-zinc-700 hover:to-zinc-800 active:scale-[0.98] text-white p-6 md:p-8 rounded-3xl border-6 md:border-8 border-cyan-400 shadow-2xl flex flex-col justify-between cursor-pointer transition-all h-full w-full overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-4xl md:text-5xl">ℹ️</span>
+            <span class="text-4xl md:text-6xl">ℹ️</span>
             <span class="bg-cyan-400 text-black px-4 py-2 rounded-2xl font-black text-lg md:text-xl border-2 border-white">
               CIVIC TECH COMMUNITY
             </span>

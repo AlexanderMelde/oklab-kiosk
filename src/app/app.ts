@@ -22,6 +22,29 @@ export class App implements OnInit {
   currentPath = signal<string>('/');
 
   ngOnInit(): void {
+    // 0. Strict Kiosk Security Lock: Prevent window.open & external redirects
+    if (typeof window !== 'undefined') {
+      window.open = function() {
+        console.warn('Kiosk Lock: Prevented window.open popup attempt.');
+        return null;
+      };
+
+      document.addEventListener('click', (e: MouseEvent) => {
+        const anchor = (e.target as HTMLElement)?.closest('a');
+        if (anchor && anchor.href) {
+          try {
+            const url = new URL(anchor.href, window.location.href);
+            // Intercept and block any navigation leading away from kiosk domain
+            if (url.origin !== window.location.origin) {
+              e.preventDefault();
+              e.stopPropagation();
+              console.warn('Kiosk Lock: Blocked external link navigation to', url.href);
+            }
+          } catch (_) {}
+        }
+      }, true);
+    }
+
     // 1. Re-parse query params on load
     this.configService.parseQueryParams();
 

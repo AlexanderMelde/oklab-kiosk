@@ -64,12 +64,13 @@ export const DEMOS = [
 
       </div>
 
-      <!-- Main Iframe Display Container -->
+      <!-- Main Iframe Display Container (Sandboxed to block popups & top-level escapes) -->
       <div class="flex-1 w-full h-full relative bg-zinc-950">
         <iframe 
           *ngIf="safeUrl"
           [src]="safeUrl" 
           class="w-full h-full border-none"
+          sandbox="allow-scripts allow-same-origin allow-forms"
           allow="fullscreen; geolocation; camera; microphone">
         </iframe>
       </div>
