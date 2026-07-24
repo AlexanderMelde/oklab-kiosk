@@ -36,9 +36,9 @@ export const DEMOS = [
             [class.bg-zinc-800]="activeDemoIndex() !== i"
             [class.text-white]="activeDemoIndex() !== i"
             [class.border-zinc-600]="activeDemoIndex() !== i"
-            class="px-5 py-3 rounded-2xl font-black text-xl md:text-2xl border-4 transition-all whitespace-nowrap active:scale-95 flex items-center space-x-2">
-            <span>🚀</span>
-            <span>{{ demo.title }}</span>
+            class="px-4 py-3 rounded-2xl font-black text-lg md:text-2xl border-4 transition-all whitespace-normal leading-tight max-w-[200px] md:max-w-[260px] text-left flex items-center space-x-2 shrink-0 active:scale-95">
+            <span class="text-2xl shrink-0">🚀</span>
+            <span class="line-clamp-2">{{ demo.title }}</span>
           </button>
         </div>
 
