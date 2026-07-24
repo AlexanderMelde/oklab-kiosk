@@ -1,0 +1,19 @@
+<div class="w-screen h-screen overflow-hidden flex flex-col bg-black text-white select-none">
+  
+  <!-- Global Navigation Bar (shown on subpages when touch interaction enabled) -->
+  <app-nav-bar 
+    *ngIf="isSubpage()" 
+    (reloadRequested)="onReloadRequested()">
+  </app-nav-bar>
+
+  <!-- Router Container -->
+  <main class="flex-1 w-full h-full overflow-hidden relative">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Attract Mode Screen Overlay (shown during idle state) -->
+  <app-attract-overlay 
+    *ngIf="idleService.isIdle() && !configService.isNonInteractive()">
+  </app-attract-overlay>
+
+</div>

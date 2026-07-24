@@ -1,0 +1,122 @@
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { LanguageService } from '../../services/language.service';
+import { ConfigService } from '../../services/config.service';
+
+export const DEMOS = [
+  { title: 'Baumkataster', url: 'https://codeforkarlsruhe.github.io/baumkataster/' },
+  { title: 'SensorCity Explorer', url: 'https://maxliesegang.github.io/ka-sensorcity-explorer/' },
+  { title: 'Heatmap', url: 'https://neposoft2.de/oklab/sensor/heatmap' }
+];
+
+@Component({
+  selector: 'app-demos',
+  standalone: true,
+  imports: [CommonModule, QRCodeComponent],
+  template: `
+    <div class="h-full w-full bg-black text-white flex flex-col select-none overflow-hidden">
+      
+      <!-- Top Demo Selector Bar & QR Banner -->
+      <div class="bg-zinc-900 border-b-4 border-yellow-400 p-4 flex flex-col md:flex-row items-center justify-between gap-4 z-10 shadow-xl">
+        
+        <!-- Left: Demo Selector Buttons -->
+        <div class="flex items-center space-x-3 overflow-x-auto w-full md:w-auto py-1">
+          <span class="text-yellow-400 font-black text-xl whitespace-nowrap mr-2 hidden lg:inline">
+            {{ lang.t().demos.selectDemo }}
+          </span>
+
+          <button 
+            *ngFor="let demo of demos; let i = index"
+            (click)="selectDemo(i)"
+            [class.bg-yellow-400]="activeDemoIndex() === i"
+            [class.text-black]="activeDemoIndex() === i"
+            [class.border-white]="activeDemoIndex() === i"
+            [class.bg-zinc-800]="activeDemoIndex() !== i"
+            [class.text-white]="activeDemoIndex() !== i"
+            [class.border-zinc-600]="activeDemoIndex() !== i"
+            class="px-5 py-3 rounded-2xl font-black text-xl md:text-2xl border-4 transition-all whitespace-nowrap active:scale-95 flex items-center space-x-2">
+            <span>🚀</span>
+            <span>{{ demo.title }}</span>
+          </button>
+        </div>
+
+        <!-- Right: Mobile QR Code Popup Banner -->
+        <div class="flex items-center bg-black border-4 border-cyan-400 rounded-2xl p-2 px-4 space-x-4 shadow-lg shrink-0">
+          <div class="text-right">
+            <div class="text-cyan-400 font-black text-lg md:text-xl uppercase leading-tight">
+              {{ activeDemo().title }}
+            </div>
+            <div class="text-gray-300 text-xs md:text-sm font-bold">
+              {{ lang.t().demos.openPhone }}
+            </div>
+          </div>
+
+          <div class="bg-white p-1 rounded-xl">
+            <qrcode 
+              [qrdata]="activeDemo().url" 
+              [width]="70" 
+              [errorCorrectionLevel]="'M'">
+            </qrcode>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Main Iframe Display Container -->
+      <div class="flex-1 w-full h-full relative bg-zinc-950">
+        <iframe 
+          *ngIf="safeUrl"
+          [src]="safeUrl" 
+          class="w-full h-full border-none"
+          allow="fullscreen; geolocation; camera; microphone">
+        </iframe>
+      </div>
+
+    </div>
+  `
+})
+export class DemosComponent implements OnInit, OnDestroy {
+  private sanitizer = inject(DomSanitizer);
+  readonly lang = inject(LanguageService);
+  readonly configService = inject(ConfigService);
+
+  readonly demos = DEMOS;
+  readonly activeDemoIndex = signal<number>(0);
+
+  safeUrl: SafeResourceUrl | null = null;
+  private rotationInterval: any = null;
+
+  ngOnInit(): void {
+    this.updateActiveUrl();
+
+    // If non-interactive mode is active, auto-cycle through demos every 30 seconds
+    if (this.configService.isNonInteractive()) {
+      this.rotationInterval = setInterval(() => {
+        const nextIndex = (this.activeDemoIndex() + 1) % this.demos.length;
+        this.selectDemo(nextIndex);
+      }, 30000);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.rotationInterval) {
+      clearInterval(this.rotationInterval);
+    }
+  }
+
+  activeDemo() {
+    return this.demos[this.activeDemoIndex()];
+  }
+
+  selectDemo(index: number): void {
+    this.activeDemoIndex.set(index);
+    this.updateActiveUrl();
+  }
+
+  private updateActiveUrl(): void {
+    const url = this.demos[this.activeDemoIndex()].url;
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
