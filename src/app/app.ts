@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigService } from './services/config.service';
-import { IdleService } from './services/idle.service';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
@@ -15,7 +14,6 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class App implements OnInit {
   readonly configService = inject(ConfigService);
-  readonly idleService = inject(IdleService);
   private router = inject(Router);
 
   isSubpage = signal<boolean>(false);

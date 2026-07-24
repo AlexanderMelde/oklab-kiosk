@@ -21,11 +21,6 @@ export interface Translations {
     aboutTitle: string;
     aboutDesc: string;
   };
-  attract: {
-    promptTitle: string;
-    promptSubtitle: string;
-    touchToStart: string;
-  };
   demos: {
     title: string;
     subtitle: string;
@@ -60,9 +55,7 @@ export interface Translations {
     civicTechDesc: string;
     joinTitle: string;
     joinText: string;
-    meetingInfo: string;
     scanWebsite: string;
-    visitWebsite: string;
   };
 }
 
@@ -84,11 +77,6 @@ const DE: Translations = {
     raffleDesc: 'Mikrocontroller, Sensoren & USB-Ventilatoren gewinnen!',
     aboutTitle: 'Über uns',
     aboutDesc: 'Wer wir sind & wie du mitmachen kannst'
-  },
-  attract: {
-    promptTitle: 'Willkommen beim OK Lab Karlsruhe!',
-    promptSubtitle: 'Entdecke Open Data & Civic Tech Projekte für unsere Stadt',
-    touchToStart: 'BERÜHREN ZUM STARTEN'
   },
   demos: {
     title: 'Prototypen',
@@ -124,9 +112,7 @@ const DE: Translations = {
     civicTechDesc: 'Open-Source-Tools & Hardwaresensoren für die Zivilgesellschaft.',
     joinTitle: 'Jede:r kann mitmachen!',
     joinText: 'Ob Programmieren, Designen, Daten analysieren oder Ideen einbringen – bei uns ist jede:r willkommen.',
-    meetingInfo: 'Treffen jeden 2. Dienstag • Code for Karlsruhe',
-    scanWebsite: 'Website scannen & mitmachen:',
-    visitWebsite: 'https://ok-lab-karlsruhe.de'
+    scanWebsite: 'Website scannen & mitmachen:'
   }
 };
 
@@ -148,11 +134,6 @@ const EN: Translations = {
     raffleDesc: 'Win microcontrollers, sensors & USB fans!',
     aboutTitle: 'About Us',
     aboutDesc: 'Who we are & how you can join'
-  },
-  attract: {
-    promptTitle: 'Welcome to OK Lab Karlsruhe!',
-    promptSubtitle: 'Discover Open Data & Civic Tech projects for our city',
-    touchToStart: 'TOUCH HERE TO EXPLORE'
   },
   demos: {
     title: 'Prototypes',
@@ -188,9 +169,7 @@ const EN: Translations = {
     civicTechDesc: 'Open-source tools & hardware sensors for civil society.',
     joinTitle: 'Everyone Can Join!',
     joinText: 'Whether coding, designing, analyzing data or contributing ideas – everyone is welcome.',
-    meetingInfo: 'Meetups every 2nd Tuesday • Code for Karlsruhe',
-    scanWebsite: 'Scan QR to join us:',
-    visitWebsite: 'https://ok-lab-karlsruhe.de'
+    scanWebsite: 'Scan QR to join us:'
   }
 };
 
