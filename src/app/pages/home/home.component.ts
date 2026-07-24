@@ -3,29 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
-import { LanguageToggleComponent } from '../../components/language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, LanguageToggleComponent],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="h-full w-full bg-black text-white p-6 flex flex-col justify-between select-none">
       
-      <!-- Top Branding Header -->
-      <header class="flex items-center justify-between border-b-4 border-yellow-400 pb-4">
-        <div>
-          <h1 class="text-4xl md:text-6xl font-black tracking-tight text-yellow-400 uppercase">
-            {{ lang.t().home.welcome }}
-          </h1>
-          <p class="text-xl md:text-3xl font-extrabold text-cyan-400 mt-1">
-            {{ lang.t().home.subtitle }}
-          </p>
-        </div>
-
-        <!-- Language Switcher Header Button -->
-        <app-language-toggle></app-language-toggle>
-      </header>
 
       <!-- Icon-Only Hovering & Pulsating Finger Prompt -->
       <div class="my-2 flex justify-center items-center pointer-events-none z-20">

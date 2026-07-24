@@ -1,10 +1,7 @@
 <div class="w-screen h-screen overflow-hidden flex flex-col bg-black text-white select-none">
   
-  <!-- Global Navigation Bar (shown on subpages when touch interaction enabled) -->
-  <app-nav-bar 
-    *ngIf="isSubpage()" 
-    (reloadRequested)="onReloadRequested()">
-  </app-nav-bar>
+  <!-- Universal Header Bar (Used across all pages) -->
+  <app-header (reloadRequested)="onReloadRequested()"></app-header>
 
   <!-- Router Container -->
   <main class="flex-1 w-full h-full overflow-hidden relative">

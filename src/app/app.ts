@@ -4,12 +4,12 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigService } from './services/config.service';
 import { IdleService } from './services/idle.service';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavBarComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
