@@ -67,13 +67,13 @@ const DE: Translations = {
   home: {
     welcome: 'OK Lab Karlsruhe',
     subtitle: 'Civic Tech & Open Data Kiosk',
-    videosTitle: '🎥 Videos & Clips',
+    videosTitle: 'Videos & Clips',
     videosDesc: 'Aftermovies & Einblicke in unsere Projekte',
-    demosTitle: '🚀 Interaktive Demos',
+    demosTitle: 'Interaktive Demos',
     demosDesc: 'Teste unsere Civic Tech Prototypen direkt aus',
-    raffleTitle: '🎁 Gewinnspiel',
+    raffleTitle: 'Gewinnspiel',
     raffleDesc: 'Mikrocontroller, Sensoren & USB-Ventilatoren gewinnen!',
-    aboutTitle: 'ℹ️ Über uns',
+    aboutTitle: 'Über uns',
     aboutDesc: 'Wer wir sind & wie du mitmachen kannst'
   },
   attract: {
@@ -122,13 +122,13 @@ const EN: Translations = {
   home: {
     welcome: 'OK Lab Karlsruhe',
     subtitle: 'Civic Tech & Open Data Kiosk',
-    videosTitle: '🎥 Videos & Clips',
+    videosTitle: 'Videos & Clips',
     videosDesc: 'Aftermovies & insights into our projects',
-    demosTitle: '🚀 Interactive Demos',
+    demosTitle: 'Interactive Demos',
     demosDesc: 'Try out our Civic Tech prototypes live',
-    raffleTitle: '🎁 Raffle / Giveaway',
+    raffleTitle: 'Raffle / Giveaway',
     raffleDesc: 'Win microcontrollers, sensors & USB fans!',
-    aboutTitle: 'ℹ️ About Us',
+    aboutTitle: 'About Us',
     aboutDesc: 'Who we are & how you can join'
   },
   attract: {
