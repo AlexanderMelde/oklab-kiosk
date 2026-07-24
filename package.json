@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build:css": "tailwindcss -i ./src/styles.css -o ./src/styles.css",
+    "start": "npm run build:css && ng serve",
+    "build": "npm run build:css && ng build",
+    "watch": "npm run build:css && ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
