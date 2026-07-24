@@ -12,11 +12,11 @@ import { AboutComponent } from '../about/about.component';
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, 
-    RouterLink, 
-    DemosComponent, 
-    MediaComponent, 
-    RaffleComponent, 
+    CommonModule,
+    RouterLink,
+    DemosComponent,
+    MediaComponent,
+    RaffleComponent,
     AboutComponent
   ],
   template: `
@@ -138,47 +138,41 @@ import { AboutComponent } from '../about/about.component';
 
         <!-- Right Sidebar Menu Column (4 Menu Buttons + Config gear) -->
         <aside class="w-72 md:w-80 shrink-0 h-full p-4 flex flex-col justify-between space-y-3 bg-zinc-950 border-l-4 border-cyan-400 overflow-hidden shadow-2xl">
-          <div class="text-cyan-400 font-black text-xl uppercase tracking-tight text-center border-b-2 border-zinc-800 pb-2">
-            📌 Menu
-          </div>
 
           <div class="flex-1 flex flex-col justify-evenly space-y-3 overflow-hidden">
             <!-- Button 1: Demos -->
             <a 
+              *ngIf="configService.promotedPage() !== 'demos'"
               routerLink="/demos"
-              [class.ring-4]="configService.promotedPage() === 'demos'"
-              [class.ring-yellow-400]="configService.promotedPage() === 'demos'"
-              class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl">
+              class="p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl text-white">
               <span class="text-3xl">🚀</span>
               <span>{{ lang.t().home.demosTitle }}</span>
             </a>
 
+          
             <!-- Button 2: Videos -->
             <a 
+              *ngIf="configService.promotedPage() !== 'media'"
               routerLink="/media"
-              [class.ring-4]="configService.promotedPage() === 'media'"
-              [class.ring-cyan-400]="configService.promotedPage() === 'media'"
-              class="bg-gradient-to-r from-cyan-400 to-cyan-500 text-black p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl">
+              class="p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl text-white">
               <span class="text-3xl">🎥</span>
               <span>{{ lang.t().home.videosTitle }}</span>
             </a>
 
             <!-- Button 3: Raffle -->
             <a 
+              *ngIf="configService.promotedPage() !== 'raffle'"
               routerLink="/raffle"
-              [class.ring-4]="configService.promotedPage() === 'raffle'"
-              [class.ring-rose-500]="configService.promotedPage() === 'raffle'"
-              class="bg-gradient-to-r from-rose-500 to-pink-600 text-white p-4 rounded-2xl border-4 border-yellow-400 shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl">
+              class="p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl text-white">
               <span class="text-3xl">🎁</span>
               <span>{{ lang.t().home.raffleTitle }}</span>
             </a>
 
             <!-- Button 4: About -->
             <a 
+              *ngIf="configService.promotedPage() !== 'about'"
               routerLink="/about"
-              [class.ring-4]="configService.promotedPage() === 'about'"
-              [class.ring-cyan-400]="configService.promotedPage() === 'about'"
-              class="bg-gradient-to-r from-zinc-800 to-zinc-900 text-white p-4 rounded-2xl border-4 border-cyan-400 shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl">
+              class="p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl text-white">
               <span class="text-3xl">ℹ️</span>
               <span>{{ lang.t().home.aboutTitle }}</span>
             </a>

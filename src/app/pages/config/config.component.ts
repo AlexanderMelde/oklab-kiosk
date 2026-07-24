@@ -62,10 +62,10 @@ import { LanguageService } from '../../services/language.service';
                 *ngFor="let opt of promoteOptions"
                 (click)="onPromoteSelect(opt.value)"
                 [class.bg-yellow-400]="configService.promotedPage() === opt.value"
-                [class.text-black]="configService.promotedPage() === opt.value"
-                [class.border-white]="configService.promotedPage() === opt.value"
                 [class.bg-zinc-800]="configService.promotedPage() !== opt.value"
-                [class.text-white]="configService.promotedPage() !== opt.value"
+                [class.border-white]="configService.promotedPage() === opt.value"
+                [class.border-zinc-600]="configService.promotedPage() !== opt.value"
+                [style.color]="configService.promotedPage() === opt.value ? '#000' : '#fff'"
                 class="flex-1 py-2 px-1 rounded-xl font-black text-xs sm:text-sm border-2 transition-all text-center">
                 {{ opt.label }}
               </button>
@@ -82,10 +82,9 @@ import { LanguageService } from '../../services/language.service';
                 *ngFor="let itemOpt of demoItemOptions"
                 (click)="onItemSelect(itemOpt.value)"
                 [class.bg-yellow-400]="configService.promotedItem() === itemOpt.value"
-                [class.text-black]="configService.promotedItem() === itemOpt.value"
                 [class.bg-zinc-800]="configService.promotedItem() !== itemOpt.value"
-                [class.text-white]="configService.promotedItem() !== itemOpt.value"
-                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-white text-center">
+                [style.color]="configService.promotedItem() === itemOpt.value ? '#000' : '#fff'"
+                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-zinc-600 text-center">
                 {{ itemOpt.label }}
               </button>
             </div>
@@ -101,10 +100,9 @@ import { LanguageService } from '../../services/language.service';
                 *ngFor="let itemOpt of mediaItemOptions"
                 (click)="onItemSelect(itemOpt.value)"
                 [class.bg-cyan-400]="configService.promotedItem() === itemOpt.value"
-                [class.text-black]="configService.promotedItem() === itemOpt.value"
                 [class.bg-zinc-800]="configService.promotedItem() !== itemOpt.value"
-                [class.text-white]="configService.promotedItem() !== itemOpt.value"
-                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-white text-center">
+                [style.color]="configService.promotedItem() === itemOpt.value ? '#000' : '#fff'"
+                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-zinc-600 text-center">
                 {{ itemOpt.label }}
               </button>
             </div>
