@@ -2,36 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LanguageToggleComponent } from '../../components/language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, FormsModule, LanguageToggleComponent],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="h-full w-full bg-black text-white p-6 md:p-10 flex flex-col justify-between select-none overflow-y-auto">
       
-      <!-- Top Title & Language Switcher -->
-      <header class="border-b-4 border-yellow-400 pb-4 mb-6 flex items-center justify-between">
-        <div>
-          <h1 class="text-4xl md:text-5xl font-black text-yellow-400 uppercase tracking-tight">
-            ⚙️ Kiosk Configurator
-          </h1>
-          <p class="text-xl md:text-2xl font-bold text-gray-300">
-            Generate custom kiosk URLs for physical displays
-          </p>
-        </div>
-
-        <div class="flex items-center space-x-4">
-          <app-language-toggle></app-language-toggle>
-
-          <button 
-            (click)="goHome()"
-            class="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-2xl border-4 border-zinc-600 font-extrabold text-xl">
-            ← Exit
-          </button>
-        </div>
-      </header>
 
       <!-- Password Lock Screen -->
       <div *ngIf="!isAuthenticated()" class="my-auto max-w-md w-full mx-auto bg-zinc-900 border-8 border-yellow-400 p-8 rounded-3xl text-center space-y-6 shadow-2xl">

@@ -27,6 +27,17 @@ import { LanguageToggleComponent } from '../../components/language-toggle/langua
         <app-language-toggle></app-language-toggle>
       </header>
 
+      <!-- Prominent Touch Prompt Banner -->
+      <div class="my-4 bg-gradient-to-r from-yellow-400 via-cyan-400 to-yellow-400 p-1 rounded-3xl animate-pulse shadow-2xl">
+        <div class="bg-black py-3 px-6 rounded-[22px] flex items-center justify-center space-x-4 text-center">
+          <span class="text-3xl md:text-4xl">👆</span>
+          <span class="text-2xl md:text-4xl font-black tracking-widest text-yellow-300 uppercase">
+            {{ lang.t().attract.touchToStart }}
+          </span>
+          <span class="text-3xl md:text-4xl">👈</span>
+        </div>
+      </div>
+
       <!-- Main Navigation 2x2 Grid of Massive Touch Targets -->
       <main class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto max-w-7xl mx-auto w-full py-4">
         

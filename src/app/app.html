@@ -11,9 +11,4 @@
     <router-outlet></router-outlet>
   </main>
 
-  <!-- Attract Mode Screen Overlay (shown during idle state) -->
-  <app-attract-overlay 
-    *ngIf="idleService.isIdle() && !configService.isNonInteractive()">
-  </app-attract-overlay>
-
 </div>

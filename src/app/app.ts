@@ -5,12 +5,11 @@ import { filter } from 'rxjs/operators';
 import { ConfigService } from './services/config.service';
 import { IdleService } from './services/idle.service';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { AttractOverlayComponent } from './components/attract-overlay/attract-overlay.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavBarComponent, AttractOverlayComponent],
+  imports: [CommonModule, RouterOutlet, NavBarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
