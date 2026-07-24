@@ -38,7 +38,7 @@ import { LanguageService } from '../../services/language.service';
             </qrcode>
           </div>
 
-          <div class="p-t-12 bg-yellow-400 text-black px-8 py-4 rounded-2xl text-2xl md:text-4xl font-black tracking-wide border-4 border-white shadow-xl animate-bounce">
+          <div class="bg-yellow-400 text-black px-8 py-4 rounded-2xl text-2xl md:text-4xl font-black tracking-wide border-4 border-white shadow-xl animate-bounce">
             📲 {{ lang.t().raffle.scanPrompt }}
           </div>
         </div>
