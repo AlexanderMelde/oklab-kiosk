@@ -65,20 +65,7 @@ export class App implements OnInit {
         this.isSubpage.set(path !== '/' && path !== '');
       });
 
-    // 4. Reset to home (or promoted route) on idle timeout
-    let previousIdle = false;
-    setInterval(() => {
-      const currentlyIdle = this.idleService.isIdle();
-      if (currentlyIdle && !previousIdle) {
-        // Returned to idle state
-        const targetRoute = this.configService.getPromotedRoute() || '/';
-        if (this.currentPath() !== targetRoute && this.currentPath() !== '/config') {
-          const currentUrlParams = typeof window !== 'undefined' ? window.location.search : '';
-          this.router.navigateByUrl(`${targetRoute}${currentUrlParams}`);
-        }
-      }
-      previousIdle = currentlyIdle;
-    }, 1000);
+
   }
 
   onReloadRequested(): void {

@@ -40,15 +40,8 @@ export class IdleService {
   public resetTimer(): void {
     if (this.timerId) {
       clearTimeout(this.timerId);
+      this.timerId = null;
     }
-
-    this.ngZone.runOutsideAngular(() => {
-      this.timerId = setTimeout(() => {
-        this.ngZone.run(() => {
-          this.isIdle.set(true);
-        });
-      }, this.idleTimeoutSeconds * 1000);
-    });
   }
 
   public dismissIdle(): void {
