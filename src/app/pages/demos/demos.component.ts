@@ -48,7 +48,7 @@ export const DEMOS = [
             </div>
           </div>
 
-          <div class="bg-white p-1 rounded-xl">
+          <div class="bg-white p-1 rounded-xl cursor-pointer hover:scale-105 transition-transform active:scale-95" (click)="showQrPopup.set(true)">
             <qrcode 
               [qrdata]="activeDemo().url" 
               [width]="70" 
@@ -71,6 +71,36 @@ export const DEMOS = [
       </div>
 
     </div>
+
+    <!-- QR Popup Overlay -->
+    <div 
+      *ngIf="showQrPopup()"
+      (click)="showQrPopup.set(false)"
+      class="fixed inset-0 z-50 bg-black/85 flex items-center justify-center">
+      <div (click)="$event.stopPropagation()" class="relative bg-zinc-900 border-4 border-cyan-400 rounded-3xl p-8 flex flex-col items-center gap-5 shadow-2xl max-w-sm w-full mx-4">
+        <button 
+          (click)="showQrPopup.set(false)"
+          class="absolute top-3 right-3 text-white bg-zinc-700 hover:bg-zinc-600 rounded-full w-9 h-9 flex items-center justify-center font-black text-lg leading-none">
+          ✕
+        </button>
+        <div class="text-cyan-400 font-black text-xl uppercase tracking-tight text-center">
+          {{ activeDemo().title }}
+        </div>
+        <div class="text-gray-300 text-sm font-bold text-center">
+          {{ lang.t().demos.openPhone }}
+        </div>
+        <div class="bg-white p-3 rounded-2xl shadow-xl">
+          <qrcode 
+            [qrdata]="activeDemo().url" 
+            [width]="280" 
+            [errorCorrectionLevel]="'M'">
+          </qrcode>
+        </div>
+        <div class="text-xs text-zinc-400 font-mono break-all text-center">
+          {{ activeDemo().url }}
+        </div>
+      </div>
+    </div>
   `
 })
 export class DemosComponent implements OnInit, OnDestroy {
@@ -80,6 +110,7 @@ export class DemosComponent implements OnInit, OnDestroy {
 
   readonly demos = DEMOS;
   readonly activeDemoIndex = signal<number>(0);
+  readonly showQrPopup = signal<boolean>(false);
 
   safeUrl: SafeResourceUrl | null = null;
   private rotationInterval: any = null;
