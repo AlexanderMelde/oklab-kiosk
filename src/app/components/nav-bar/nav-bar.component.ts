@@ -1,13 +1,14 @@
 import { Component, inject, EventEmitter, Output } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
+import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LanguageToggleComponent],
   template: `
     <nav 
       *ngIf="!configService.isNonInteractive()" 
@@ -47,15 +48,8 @@ import { ConfigService } from '../../services/config.service';
           <span>{{ lang.t().nav.reload }}</span>
         </button>
 
-        <!-- Language switcher -->
-        <button 
-          (click)="lang.toggleLanguage()" 
-          class="bg-cyan-400 hover:bg-cyan-300 active:bg-cyan-500 text-black px-5 py-3 rounded-2xl font-black text-xl md:text-2xl flex items-center space-x-2 border-4 border-white transition-transform active:scale-95">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7.865M12 21a9 9 0 100-18 9 9 0 000 18z"/>
-          </svg>
-          <span>{{ lang.currentLang() === 'de' ? 'DE | EN' : 'EN | DE' }}</span>
-        </button>
+        <!-- Language switcher component -->
+        <app-language-toggle></app-language-toggle>
 
         <!-- Settings / Config button -->
         <button 

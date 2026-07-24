@@ -8,17 +8,17 @@ import { ConfigService } from '../../services/config.service';
 export const VIDEOS = [
   { 
     title: 'Open Data Hack Days 2024 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0', 
+    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
     externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk' 
   },
   { 
     title: 'OK Lab Karlsruhe @ DAS FEST 2025 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0', 
+    url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
     externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A' 
   },
   { 
     title: 'Open Data Hackdays Karlsruhe 2026 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0', 
+    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
     externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao' 
   }
 ];
@@ -76,15 +76,20 @@ export const VIDEOS = [
 
       </div>
 
-      <!-- Main Video Player Container -->
+      <!-- Main Video Player Container with Click Lock Protection -->
       <div class="flex-1 w-full h-full relative bg-black flex items-center justify-center p-2">
-        <iframe 
-          *ngIf="safeUrl"
-          [src]="safeUrl" 
-          class="w-full h-full max-w-6xl max-h-[85vh] rounded-3xl border-4 border-zinc-800 shadow-2xl"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          allowfullscreen>
-        </iframe>
+        <div class="relative w-full h-full max-w-6xl max-h-[85vh] rounded-3xl overflow-hidden border-4 border-zinc-800 shadow-2xl">
+          <iframe 
+            *ngIf="safeUrl"
+            [src]="safeUrl" 
+            class="w-full h-full border-none pointer-events-none"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+
+          <!-- Protection Layer preventing external YouTube navigation -->
+          <div class="absolute inset-0 z-30 cursor-default bg-transparent"></div>
+        </div>
       </div>
 
     </div>

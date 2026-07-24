@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
+import { LanguageToggleComponent } from '../../components/language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LanguageToggleComponent],
   template: `
     <div class="h-full w-full bg-black text-white p-6 flex flex-col justify-between select-none">
       
@@ -23,14 +24,7 @@ import { ConfigService } from '../../services/config.service';
         </div>
 
         <!-- Language Switcher Header Button -->
-        <button 
-          (click)="lang.toggleLanguage()"
-          class="bg-cyan-400 hover:bg-cyan-300 active:bg-cyan-500 text-black px-6 py-4 rounded-3xl font-black text-2xl border-4 border-white flex items-center space-x-3 shadow-xl transition-transform active:scale-95">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7.865M12 21a9 9 0 100-18 9 9 0 000 18z"/>
-          </svg>
-          <span>{{ lang.currentLang() === 'de' ? 'Deutsch' : 'English' }}</span>
-        </button>
+        <app-language-toggle></app-language-toggle>
       </header>
 
       <!-- Main Navigation 2x2 Grid of Massive Touch Targets -->
@@ -124,7 +118,6 @@ import { ConfigService } from '../../services/config.service';
           Code for Karlsruhe • Open Knowledge Foundation Deutschland
         </div>
         <div class="flex items-center space-x-6">
-          <span>oklabkiosk.melde.net</span>
           <a routerLink="/config" class="text-yellow-400 text-2xl hover:text-yellow-300 transition-transform active:scale-90" title="Settings">⚙️</a>
         </div>
       </footer>

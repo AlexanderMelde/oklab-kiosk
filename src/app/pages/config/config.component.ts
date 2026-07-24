@@ -2,15 +2,16 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LanguageToggleComponent } from '../../components/language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LanguageToggleComponent],
   template: `
     <div class="h-full w-full bg-black text-white p-6 md:p-10 flex flex-col justify-between select-none overflow-y-auto">
       
-      <!-- Top Title -->
+      <!-- Top Title & Language Switcher -->
       <header class="border-b-4 border-yellow-400 pb-4 mb-6 flex items-center justify-between">
         <div>
           <h1 class="text-4xl md:text-5xl font-black text-yellow-400 uppercase tracking-tight">
@@ -21,11 +22,15 @@ import { Router } from '@angular/router';
           </p>
         </div>
 
-        <button 
-          (click)="goHome()"
-          class="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-2xl border-4 border-zinc-600 font-extrabold text-xl">
-          ← Exit
-        </button>
+        <div class="flex items-center space-x-4">
+          <app-language-toggle></app-language-toggle>
+
+          <button 
+            (click)="goHome()"
+            class="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-2xl border-4 border-zinc-600 font-extrabold text-xl">
+            ← Exit
+          </button>
+        </div>
       </header>
 
       <!-- Password Lock Screen -->
@@ -119,10 +124,47 @@ import { Router } from '@angular/router';
           </div>
         </div>
 
-        <!-- Parameter 2: Non-Interactive Mode -->
+        <!-- Parameter 2: Default Display Language -->
+        <div class="space-y-3 border-t-4 border-zinc-800 pt-6">
+          <label class="text-2xl font-black text-yellow-300 block uppercase">
+            2. Default Language (?lang=...)
+          </label>
+
+          <div class="grid grid-cols-3 gap-3">
+            <button 
+              (click)="selectedLang.set(null)"
+              [class.bg-yellow-400]="selectedLang() === null"
+              [class.text-black]="selectedLang() === null"
+              [class.bg-zinc-800]="selectedLang() !== null"
+              [class.text-white]="selectedLang() !== null"
+              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
+              Default (DE)
+            </button>
+            <button 
+              (click)="selectedLang.set('de')"
+              [class.bg-yellow-400]="selectedLang() === 'de'"
+              [class.text-black]="selectedLang() === 'de'"
+              [class.bg-zinc-800]="selectedLang() !== 'de'"
+              [class.text-white]="selectedLang() !== 'de'"
+              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
+              🇩🇪 German (?lang=de)
+            </button>
+            <button 
+              (click)="selectedLang.set('en')"
+              [class.bg-yellow-400]="selectedLang() === 'en'"
+              [class.text-black]="selectedLang() === 'en'"
+              [class.bg-zinc-800]="selectedLang() !== 'en'"
+              [class.text-white]="selectedLang() !== 'en'"
+              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
+              🇬🇧 English (?lang=en)
+            </button>
+          </div>
+        </div>
+
+        <!-- Parameter 3: Non-Interactive Mode -->
         <div class="space-y-3 border-t-4 border-zinc-800 pt-6">
           <label class="text-2xl font-black text-cyan-400 block uppercase">
-            2. Display Mode (?nonInteractive=true)
+            3. Display Mode (?nonInteractive=true)
           </label>
           
           <div (click)="isNonInteractive.set(!isNonInteractive())" class="bg-black border-4 border-cyan-400 p-6 rounded-2xl flex items-center justify-between cursor-pointer active:scale-[0.99] transition-transform">
@@ -149,7 +191,7 @@ import { Router } from '@angular/router';
         <!-- Resulting Generated URL Box -->
         <div class="space-y-4 border-t-4 border-zinc-800 pt-6">
           <label class="text-2xl font-black text-yellow-300 block uppercase">
-            3. Generated Kiosk Target URL
+            4. Generated Kiosk Target URL
           </label>
 
           <div class="bg-black border-4 border-yellow-400 rounded-2xl p-6 font-mono text-xl md:text-2xl text-yellow-300 break-all select-all">
@@ -174,7 +216,6 @@ import { Router } from '@angular/router';
       </main>
 
       <footer class="text-gray-400 font-bold text-center text-lg mt-6">
-        OK Lab Karlsruhe Kiosk • Domain target: oklabkiosk.melde.net
       </footer>
 
     </div>
@@ -189,6 +230,7 @@ export class ConfigComponent {
 
   selectedPromote = signal<string | null>(null);
   selectedItem = signal<string | null>(null);
+  selectedLang = signal<string | null>(null);
   isNonInteractive = signal<boolean>(false);
   copySuccess = signal<boolean>(false);
 
@@ -240,6 +282,10 @@ export class ConfigComponent {
       params.push(`item=${this.selectedItem()}`);
     }
 
+    if (this.selectedLang()) {
+      params.push(`lang=${this.selectedLang()}`);
+    }
+
     if (this.isNonInteractive()) {
       params.push(`nonInteractive=true`);
     }
@@ -266,6 +312,9 @@ export class ConfigComponent {
     }
     if (this.selectedItem()) {
       params.item = this.selectedItem();
+    }
+    if (this.selectedLang()) {
+      params.lang = this.selectedLang();
     }
     if (this.isNonInteractive()) {
       params.nonInteractive = 'true';

@@ -173,6 +173,16 @@ const EN: Translations = {
 export class LanguageService {
   readonly currentLang = signal<Language>('de');
 
+  constructor() {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang')?.toLowerCase();
+      if (langParam === 'en' || langParam === 'de') {
+        this.currentLang.set(langParam as Language);
+      }
+    }
+  }
+
   toggleLanguage(): void {
     this.currentLang.set(this.currentLang() === 'de' ? 'en' : 'de');
   }
