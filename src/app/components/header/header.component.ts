@@ -15,7 +15,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
       *ngIf="!configService.isNonInteractive()"
       class="bg-black border-b-4 border-yellow-400 px-4 py-3 flex items-center justify-between shadow-2xl select-none z-40 relative">
       
-      <!-- Left Side: Brand Title (Home only) OR Subpage Navigation Buttons -->
+      <!-- Left Side: Brand Title (Home only) OR Single Icon Button (Home / Back) -->
       <div class="flex items-center space-x-4">
         <!-- Prominent Large Brand Title (Shown ONLY on Home '/') -->
         <a *ngIf="isHome()" routerLink="/" class="flex flex-col cursor-pointer group py-1">
@@ -27,33 +27,35 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
           </p>
         </a>
 
-        <!-- Subpage Navigation Buttons (Title hidden on subpages) -->
-        <div *ngIf="!isHome()" class="flex items-center space-x-3">
-          <!-- Home button -->
+        <!-- Subpage Single Icon Button (Replaces old text Home & Back buttons) -->
+        <div *ngIf="!isHome()" class="flex items-center">
+          <!-- 1-Level Deep: White SVG Home Icon Button -->
           <button 
+            *ngIf="navigationDepth() < 2"
             routerLink="/" 
-            class="bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-black px-5 py-2.5 rounded-2xl font-black text-xl md:text-2xl flex items-center space-x-2 border-3 border-white shadow-md transition-transform active:scale-95">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            class="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white p-3 rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
+            title="Home">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
             </svg>
-            <span>{{ lang.t().nav.home }}</span>
           </button>
 
-          <!-- Back button -->
+          <!-- 2-Levels Deep: White SVG Left Arrow Back Icon Button -->
           <button 
+            *ngIf="navigationDepth() >= 2"
             (click)="goBack()" 
-            class="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-cyan-400 px-4 py-2.5 rounded-2xl font-extrabold text-lg md:text-xl flex items-center space-x-2 border-3 border-cyan-400 transition-transform active:scale-95">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            class="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white p-3 rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
+            title="Back">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            <span>{{ lang.t().nav.back }}</span>
           </button>
         </div>
       </div>
 
-      <!-- Right Side: Reload, Language Toggle & Config -->
+      <!-- Right Side: Reload & Language Toggle -->
       <div class="flex items-center space-x-3">
-        <!-- Reload Button (Conditional: shown on subpages) -->
+        <!-- Reload Button (Shown on subpages) -->
         <button 
           *ngIf="!isHome() && !isConfig()"
           (click)="onReload()" 
@@ -65,7 +67,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
           <span class="hidden md:inline">{{ lang.t().nav.reload }}</span>
         </button>
 
-        <!-- Reusable Language Switcher Component (Always visible on all pages) -->
+        <!-- Reusable Language Switcher Component -->
         <app-language-toggle></app-language-toggle>
       </div>
     </header>
@@ -79,6 +81,7 @@ export class HeaderComponent implements OnInit {
 
   isHome = signal<boolean>(true);
   isConfig = signal<boolean>(false);
+  navigationDepth = signal<number>(0);
 
   @Output() reloadRequested = new EventEmitter<void>();
 
@@ -94,11 +97,19 @@ export class HeaderComponent implements OnInit {
 
   private updateRouteFlags(url: string): void {
     const path = url.split('?')[0];
-    this.isHome.set(path === '/' || path === '');
+    const home = path === '/' || path === '';
+    this.isHome.set(home);
     this.isConfig.set(path === '/config');
+
+    if (home) {
+      this.navigationDepth.set(0);
+    } else {
+      this.navigationDepth.update(d => d + 1);
+    }
   }
 
   goBack(): void {
+    this.navigationDepth.update(d => Math.max(0, d - 2));
     if (window.history.length > 1) {
       this.location.back();
     } else {
