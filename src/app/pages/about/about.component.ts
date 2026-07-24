@@ -40,33 +40,35 @@ import { LanguageService } from '../../services/language.service';
 
         <!-- Tile 2: Unsere 3 Säulen -->
         <div class="bg-zinc-900 border-4 border-cyan-400 p-6 rounded-3xl shadow-2xl flex flex-col justify-between overflow-hidden h-full">
-          <div>
+          <div class="h-full flex flex-col justify-between">
             <div class="flex items-center space-x-3 mb-3">
               <span class="text-4xl">💡</span>
               <h2 class="text-2xl md:text-3xl font-black text-cyan-400 uppercase leading-tight">
                 {{ lang.t().about.pillarsTitle }}
               </h2>
             </div>
-            <div class="space-y-2 md:space-y-3">
-              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex items-start space-x-3">
-                <span class="text-2xl shrink-0">📂</span>
+            
+            <!-- 3 Columns Side-by-Side -->
+            <div class="gap-3 flex-1 items-stretch" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex flex-col justify-between items-center text-center h-full">
+                <span class="text-3xl mb-1">📂</span>
                 <div>
-                  <div class="font-black text-base md:text-lg text-yellow-300">Open Data</div>
-                  <p class="text-xs md:text-sm font-bold text-gray-300 leading-tight">{{ lang.t().about.openDataDesc }}</p>
+                  <div class="font-black text-sm md:text-base text-yellow-300 mb-1">Open Data</div>
+                  <p class="text-xs font-bold text-gray-300 leading-tight">{{ lang.t().about.openDataDesc }}</p>
                 </div>
               </div>
-              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex items-start space-x-3">
-                <span class="text-2xl shrink-0">🏛️</span>
+              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex flex-col justify-between items-center text-center h-full">
+                <span class="text-3xl mb-1">🏛️</span>
                 <div>
-                  <div class="font-black text-base md:text-lg text-cyan-300">Offene Verwaltung</div>
-                  <p class="text-xs md:text-sm font-bold text-gray-300 leading-tight">{{ lang.t().about.openGovDesc }}</p>
+                  <div class="font-black text-sm md:text-base text-cyan-300 mb-1">Offene Verwaltung</div>
+                  <p class="text-xs font-bold text-gray-300 leading-tight">{{ lang.t().about.openGovDesc }}</p>
                 </div>
               </div>
-              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex items-start space-x-3">
-                <span class="text-2xl shrink-0">💻</span>
+              <div class="bg-black/60 p-3 rounded-2xl border-2 border-zinc-800 flex flex-col justify-between items-center text-center h-full">
+                <span class="text-3xl mb-1">💻</span>
                 <div>
-                  <div class="font-black text-base md:text-lg text-rose-300">Civic Tech</div>
-                  <p class="text-xs md:text-sm font-bold text-gray-300 leading-tight">{{ lang.t().about.civicTechDesc }}</p>
+                  <div class="font-black text-sm md:text-base text-rose-300 mb-1">Civic Tech</div>
+                  <p class="text-xs font-bold text-gray-300 leading-tight">{{ lang.t().about.civicTechDesc }}</p>
                 </div>
               </div>
             </div>
