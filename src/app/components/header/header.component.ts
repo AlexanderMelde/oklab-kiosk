@@ -67,15 +67,6 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
 
         <!-- Reusable Language Switcher Component (Always visible on all pages) -->
         <app-language-toggle></app-language-toggle>
-
-        <!-- Config Link (Conditional: shown on all pages except /config) -->
-        <a 
-          *ngIf="!isConfig()"
-          routerLink="/config" 
-          class="bg-zinc-900 hover:bg-zinc-800 text-yellow-400 p-2.5 rounded-2xl border-3 border-zinc-700 text-xl md:text-2xl transition-transform active:scale-95"
-          title="Settings">
-          ⚙️
-        </a>
       </div>
     </header>
   `
