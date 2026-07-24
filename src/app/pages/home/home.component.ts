@@ -106,11 +106,8 @@ import { ConfigService } from '../../services/config.service';
 
       </main>
 
-      <!-- Footer Info Bar -->
-      <footer class="border-t-4 border-zinc-800 pt-3 flex items-right justify-between text-gray-400 font-bold text-base md:text-xl shrink-0">
-        <div class="flex items-center space-x-6">
+      <footer class="pt-3 shrink-0 flex justify-end items-end">
           <a routerLink="/config" class="text-yellow-400 text-2xl hover:text-yellow-300 transition-transform active:scale-90" title="Settings">⚙️</a>
-        </div>
       </footer>
     </div>
   `

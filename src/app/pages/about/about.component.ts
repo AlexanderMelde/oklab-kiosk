@@ -63,12 +63,6 @@ import { LanguageService } from '../../services/language.service';
         </div>
 
       </main>
-
-      <!-- Footer Info -->
-      <footer class="border-t-4 border-zinc-800 pt-4 mt-6 text-center text-gray-400 font-bold text-lg md:text-xl">
-        Mitgestalten & Mitmachen • Treffen jeden 2. Dienstag • Code for Karlsruhe
-      </footer>
-
     </div>
   `
 })
