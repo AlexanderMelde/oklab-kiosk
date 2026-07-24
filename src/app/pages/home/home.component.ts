@@ -125,7 +125,7 @@ import { ConfigService } from '../../services/config.service';
         </div>
         <div class="flex items-center space-x-6">
           <span>oklabkiosk.melde.net</span>
-          <a routerLink="/config" class="text-yellow-400 underline font-black">⚙️ Config</a>
+          <a routerLink="/config" class="text-yellow-400 text-2xl hover:text-yellow-300 transition-transform active:scale-90" title="Settings">⚙️</a>
         </div>
       </footer>
     </div>

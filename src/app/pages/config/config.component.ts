@@ -39,7 +39,7 @@ import { Router } from '@angular/router';
             type="password" 
             [(ngModel)]="passwordInput" 
             name="password"
-            placeholder="Password (default: oklab)"
+            placeholder="Password"
             class="w-full bg-black border-4 border-cyan-400 rounded-2xl p-4 text-2xl text-center font-bold text-yellow-300 focus:outline-none focus:border-yellow-400"
             required />
 
@@ -167,7 +167,7 @@ export class ConfigComponent {
       this.isAuthenticated.set(true);
       this.errorMessage.set('');
     } else {
-      this.errorMessage.set('Incorrect password! (Use "oklab")');
+      this.errorMessage.set('Incorrect password!');
     }
   }
 
