@@ -48,9 +48,19 @@ export interface Translations {
   };
   about: {
     title: string;
-    p1: string;
-    p2: string;
-    p3: string;
+    tagline: string;
+    whoWeAreTitle: string;
+    whoWeAreText: string;
+    pillarsTitle: string;
+    openDataTitle: string;
+    openDataDesc: string;
+    openGovTitle: string;
+    openGovDesc: string;
+    civicTechTitle: string;
+    civicTechDesc: string;
+    joinTitle: string;
+    joinText: string;
+    meetingInfo: string;
     scanWebsite: string;
     visitWebsite: string;
   };
@@ -102,10 +112,20 @@ const DE: Translations = {
   },
   about: {
     title: 'Über das OK Lab Karlsruhe',
-    p1: 'Wir sind das OK Lab Karlsruhe – eine Gemeinschaft von ehrenamtlichen Civic Tech Begeisterten.',
-    p2: 'Wir nutzen offene Daten und digitale Technologien, um unsere Stadt transparenter, nachhaltiger und lebenswerter zu gestalten.',
-    p3: 'Unsere Projekte reichen von Umweltanalysen (Datensafari & SensorCity) über Bürgerbeteiligung (Consul) bis hin zu Hardware-Prototypen (CycleSense & Plappernde Kastanie). Mach mit!',
-    scanWebsite: 'Website besuchen:',
+    tagline: 'Offene Daten & Civic Tech für ein besseres Karlsruhe',
+    whoWeAreTitle: 'Wer wir sind',
+    whoWeAreText: 'Wir sind eine ehrenamtliche Gemeinschaft von Bürger:innen, Entwickler:innen und Gestalter:innen. Als Teil von "Code for Germany" & "Open Knowledge Foundation Deutschland" nutzen wir Technologie für das Gemeinwohl.',
+    pillarsTitle: 'Unsere 3 Säulen',
+    openDataTitle: '📂 Open Data',
+    openDataDesc: 'Frei zugängliche, maschinenlesbare Daten für Transparenz & Innovation.',
+    openGovTitle: '🏛️ Offene Verwaltung',
+    openGovDesc: 'Bürgernahe Digitalisierung, Partizipation & Vertrauen.',
+    civicTechTitle: '💻 Civic Tech',
+    civicTechDesc: 'Open-Source-Tools & Hardwaresensoren für die Zivilgesellschaft.',
+    joinTitle: 'Jede:r kann mitmachen!',
+    joinText: 'Ob Programmieren, Designen, Daten analysieren oder Ideen einbringen – bei uns ist jede:r willkommen.',
+    meetingInfo: 'Treffen jeden 2. Dienstag • Code for Karlsruhe',
+    scanWebsite: 'Website scannen & mitmachen:',
     visitWebsite: 'https://ok-lab-karlsruhe.de'
   }
 };
@@ -156,10 +176,20 @@ const EN: Translations = {
   },
   about: {
     title: 'About OK Lab Karlsruhe',
-    p1: 'We are OK Lab Karlsruhe – a community of civic tech volunteers.',
-    p2: 'We use open data and open-source technology to make our city more transparent, sustainable, and liveable.',
-    p3: 'Our projects range from environmental data analysis (Datensafari & SensorCity) to digital participation platforms (Consul) and hardware prototypes (CycleSense & Plappernde Kastanie). Join us!',
-    scanWebsite: 'Visit our website:',
+    tagline: 'Open Data & Civic Tech for a Better Karlsruhe',
+    whoWeAreTitle: 'Who We Are',
+    whoWeAreText: 'We are a volunteer community of citizens, developers, and designers. Part of "Code for Germany" & "Open Knowledge Foundation Germany", leveraging technology for the public good.',
+    pillarsTitle: 'Our 3 Pillars',
+    openDataTitle: '📂 Open Data',
+    openDataDesc: 'Freely accessible, machine-readable data for transparency & innovation.',
+    openGovTitle: '🏛️ Open Governance',
+    openGovDesc: 'Citizen-centric digitization, participation & trust.',
+    civicTechTitle: '💻 Civic Tech',
+    civicTechDesc: 'Open-source tools & hardware sensors for civil society.',
+    joinTitle: 'Everyone Can Join!',
+    joinText: 'Whether coding, designing, analyzing data or contributing ideas – everyone is welcome.',
+    meetingInfo: 'Meetups every 2nd Tuesday • Code for Karlsruhe',
+    scanWebsite: 'Scan QR to join us:',
     visitWebsite: 'https://ok-lab-karlsruhe.de'
   }
 };

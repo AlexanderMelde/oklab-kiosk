@@ -19,9 +19,6 @@ import { LanguageService } from '../../services/language.service';
           {{ lang.t().raffle.title }}
         </h1>
       </div>
-
-      <!-- Center Box: Headline, Description & Giant QR Code -->
-      <div class="bg-zinc-900 border-8 border-yellow-400 rounded-3xl p-8 md:p-12 w-full text-center shadow-2xl space-y-8 my-auto">
         
         <h2 class="text-3xl md:text-5xl font-black text-white leading-tight">
           {{ lang.t().raffle.headline }}
@@ -41,12 +38,10 @@ import { LanguageService } from '../../services/language.service';
             </qrcode>
           </div>
 
-          <div class="bg-yellow-400 text-black px-8 py-4 rounded-2xl text-2xl md:text-4xl font-black tracking-wide border-4 border-white shadow-xl animate-bounce">
+          <div class="p-t-12 bg-yellow-400 text-black px-8 py-4 rounded-2xl text-2xl md:text-4xl font-black tracking-wide border-4 border-white shadow-xl animate-bounce">
             📲 {{ lang.t().raffle.scanPrompt }}
           </div>
         </div>
-
-      </div>
 
       <!-- Bottom Hint -->
       <footer class="text-gray-400 font-bold text-lg md:text-xl text-center pb-2">
