@@ -27,14 +27,13 @@ import { LanguageToggleComponent } from '../../components/language-toggle/langua
         <app-language-toggle></app-language-toggle>
       </header>
 
-      <!-- Prominent Touch Prompt Banner -->
-      <div class="my-4 bg-gradient-to-r from-yellow-400 via-cyan-400 to-yellow-400 p-1 rounded-3xl animate-pulse shadow-2xl">
-        <div class="bg-black py-3 px-6 rounded-[22px] flex items-center justify-center space-x-4 text-center">
-          <span class="text-3xl md:text-4xl">👆</span>
-          <span class="text-2xl md:text-4xl font-black tracking-widest text-yellow-300 uppercase">
-            {{ lang.t().attract.touchToStart }}
-          </span>
-          <span class="text-3xl md:text-4xl">👈</span>
+      <!-- Icon-Only Hovering & Pulsating Finger Prompt -->
+      <div class="my-2 flex justify-center items-center pointer-events-none z-20">
+        <div class="relative flex items-center justify-center">
+          <span class="absolute inline-flex h-16 w-16 rounded-full bg-yellow-400 opacity-75 animate-ping"></span>
+          <div class="relative bg-black/90 border-4 border-yellow-400 p-3.5 rounded-full shadow-2xl animate-bounce text-4xl md:text-5xl">
+            👇
+          </div>
         </div>
       </div>
 
