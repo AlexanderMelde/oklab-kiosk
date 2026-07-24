@@ -1,7 +1,7 @@
 <div class="w-screen h-screen overflow-hidden flex flex-col bg-black text-white select-none">
   
-  <!-- Universal Header Bar (Used across all pages) -->
-  <app-header (reloadRequested)="onReloadRequested()"></app-header>
+  <!-- Universal Header Bar (Hidden in Non-Interactive Mode) -->
+  <app-header *ngIf="!configService.isNonInteractive()" (reloadRequested)="onReloadRequested()"></app-header>
 
   <!-- Router Container -->
   <main class="flex-1 w-full h-full overflow-hidden relative">

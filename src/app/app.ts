@@ -43,17 +43,10 @@ export class App implements OnInit {
       }, true);
     }
 
-    // 1. Re-parse query params on load
-    this.configService.parseQueryParams();
+    // 1. Re-parse query params / init configuration on load
+    this.configService.initConfiguration();
 
-    // 2. Handle ?promote=... initial navigation redirection while preserving query params
-    const promotedRoute = this.configService.getPromotedRoute();
-    if (promotedRoute) {
-      const currentUrlParams = typeof window !== 'undefined' ? window.location.search : '';
-      this.router.navigateByUrl(`${promotedRoute}${currentUrlParams}`, { replaceUrl: true });
-    }
-
-    // 3. Track route changes to control navbar visibility
+    // 2. Track route changes to control navbar visibility
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -62,8 +55,6 @@ export class App implements OnInit {
         // Show navbar on subpages (anything except home '/')
         this.isSubpage.set(path !== '/' && path !== '');
       });
-
-
   }
 
   onReloadRequested(): void {

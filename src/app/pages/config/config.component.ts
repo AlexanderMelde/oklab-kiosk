@@ -1,21 +1,22 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ConfigService, PromotedPage } from '../../services/config.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-config',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="h-full w-full bg-black text-white p-6 md:p-10 flex flex-col justify-between select-none overflow-y-auto">
+    <div class="h-full w-full bg-black text-white p-3 sm:p-4 md:p-6 flex flex-col justify-between select-none overflow-hidden">
       
 
       <!-- Password Lock Screen -->
-      <div *ngIf="!isAuthenticated()" class="my-auto max-w-md w-full mx-auto bg-zinc-900 border-8 border-yellow-400 p-8 rounded-3xl text-center space-y-6 shadow-2xl">
-        <div class="text-5xl">🔒</div>
-        <h2 class="text-3xl font-black text-white uppercase">Protected Kiosk Settings</h2>
-        <p class="text-lg font-bold text-gray-300">Enter administrator password to continue:</p>
+      <div *ngIf="!isAuthenticated()" class="my-auto max-w-md w-full mx-auto bg-zinc-900 border-4 sm:border-8 border-yellow-400 p-6 sm:p-8 rounded-3xl text-center space-y-4 sm:space-y-6 shadow-2xl">
+        <div class="text-4xl sm:text-5xl">🔒</div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white uppercase">Protected Kiosk Settings</h2>
+        <p class="text-sm sm:text-lg font-bold text-gray-300">Enter administrator password to continue:</p>
 
         <form (ngSubmit)="unlock()" class="space-y-4">
           <input 
@@ -23,220 +24,205 @@ import { Router } from '@angular/router';
             [(ngModel)]="passwordInput" 
             name="password"
             placeholder="Password"
-            class="w-full bg-black border-4 border-cyan-400 rounded-2xl p-4 text-2xl text-center font-bold text-yellow-300 focus:outline-none focus:border-yellow-400"
+            class="w-full bg-black border-4 border-cyan-400 rounded-2xl p-3 sm:p-4 text-xl sm:text-2xl text-center font-bold text-yellow-300 focus:outline-none focus:border-yellow-400"
             required />
 
           <button 
             type="submit" 
-            class="w-full bg-yellow-400 hover:bg-yellow-300 text-black py-4 rounded-2xl font-black text-2xl border-4 border-white shadow-xl transition-transform active:scale-95">
+            class="w-full bg-yellow-400 hover:bg-yellow-300 text-black py-3 sm:py-4 rounded-2xl font-black text-xl sm:text-2xl border-4 border-white shadow-xl transition-transform active:scale-95">
             UNLOCK CONFIGURATOR
           </button>
         </form>
 
-        <p *ngIf="errorMessage()" class="text-red-500 font-black text-xl bg-red-950 p-3 rounded-xl border-2 border-red-500">
+        <p *ngIf="errorMessage()" class="text-red-500 font-black text-base sm:text-xl bg-red-950 p-2 sm:p-3 rounded-xl border-2 border-red-500">
           {{ errorMessage() }}
         </p>
       </div>
 
-      <!-- Authenticated Generator Panel -->
-      <main *ngIf="isAuthenticated()" class="my-auto max-w-4xl w-full mx-auto bg-zinc-900 border-8 border-cyan-400 p-8 rounded-3xl space-y-8 shadow-2xl">
-        
-        <!-- Parameter 1: Promote Subpage -->
-        <div class="space-y-3">
-          <label class="text-2xl font-black text-yellow-400 block uppercase">
-            1. Promoted Subpage (?promote=...)
-          </label>
-          <p class="text-gray-300 text-lg font-extrabold">
-            Automatically bypasses home screen and opens the selected page directly.
-          </p>
+      <!-- Authenticated Generator Panel (Fills available space, zero scrolling) -->
+      <main *ngIf="isAuthenticated()" class="my-auto w-full mx-auto p-4 sm:p-6 flex-1 flex flex-col gap-3 overflow-hidden shadow-2xl">
 
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-3 pt-2">
-            <button 
-              *ngFor="let opt of promoteOptions"
-              (click)="onPromoteSelect(opt.value)"
-              [class.bg-yellow-400]="selectedPromote() === opt.value"
-              [class.text-black]="selectedPromote() === opt.value"
-              [class.border-white]="selectedPromote() === opt.value"
-              [class.bg-zinc-800]="selectedPromote() !== opt.value"
-              [class.text-white]="selectedPromote() !== opt.value"
-              class="p-4 rounded-2xl font-black text-xl border-4 transition-all text-center">
-              {{ opt.label }}
-            </button>
+          <!-- Header Title -->
+          <div class="flex items-center justify-between border-b-2 sm:border-b-4 border-cyan-400 pb-2 shrink-0">
+            <h2 class="text-xl sm:text-3xl font-black text-cyan-400 uppercase tracking-tight">
+              ⚙️ Kiosk Configuration
+            </h2>
+            <span class="text-xs sm:text-sm font-bold text-yellow-400 bg-zinc-800 px-3 py-1 rounded-full border border-yellow-400">
+              Saved to LocalStorage
+            </span>
           </div>
-        </div>
 
-        <!-- Parameter 1b: Subpage Content Level Item Selection -->
-        <div *ngIf="selectedPromote() === 'demos'" class="space-y-3 bg-black/60 p-5 rounded-2xl border-4 border-yellow-400">
-          <label class="text-xl font-black text-yellow-300 block uppercase">
-            👉 Specific Demo Item (?item=...)
-          </label>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <button 
-              *ngFor="let itemOpt of demoItemOptions"
-              (click)="selectedItem.set(itemOpt.value)"
-              [class.bg-yellow-400]="selectedItem() === itemOpt.value"
-              [class.text-black]="selectedItem() === itemOpt.value"
-              [class.bg-zinc-800]="selectedItem() !== itemOpt.value"
-              [class.text-white]="selectedItem() !== itemOpt.value"
-              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
-              {{ itemOpt.label }}
-            </button>
-          </div>
-        </div>
-
-        <div *ngIf="selectedPromote() === 'media'" class="space-y-3 bg-black/60 p-5 rounded-2xl border-4 border-cyan-400">
-          <label class="text-xl font-black text-cyan-300 block uppercase">
-            👉 Specific Video Item (?item=...)
-          </label>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <button 
-              *ngFor="let itemOpt of mediaItemOptions"
-              (click)="selectedItem.set(itemOpt.value)"
-              [class.bg-cyan-400]="selectedItem() === itemOpt.value"
-              [class.text-black]="selectedItem() === itemOpt.value"
-              [class.bg-zinc-800]="selectedItem() !== itemOpt.value"
-              [class.text-white]="selectedItem() !== itemOpt.value"
-              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
-              {{ itemOpt.label }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Parameter 2: Default Display Language -->
-        <div class="space-y-3 border-t-4 border-zinc-800 pt-6">
-          <label class="text-2xl font-black text-yellow-300 block uppercase">
-            2. Default Language (?lang=...)
-          </label>
-
-          <div class="grid grid-cols-3 gap-3">
-            <button 
-              (click)="selectedLang.set(null)"
-              [class.bg-yellow-400]="selectedLang() === null"
-              [class.text-black]="selectedLang() === null"
-              [class.bg-zinc-800]="selectedLang() !== null"
-              [class.text-white]="selectedLang() !== null"
-              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
-              Default (DE)
-            </button>
-            <button 
-              (click)="selectedLang.set('de')"
-              [class.bg-yellow-400]="selectedLang() === 'de'"
-              [class.text-black]="selectedLang() === 'de'"
-              [class.bg-zinc-800]="selectedLang() !== 'de'"
-              [class.text-white]="selectedLang() !== 'de'"
-              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
-              🇩🇪 German (?lang=de)
-            </button>
-            <button 
-              (click)="selectedLang.set('en')"
-              [class.bg-yellow-400]="selectedLang() === 'en'"
-              [class.text-black]="selectedLang() === 'en'"
-              [class.bg-zinc-800]="selectedLang() !== 'en'"
-              [class.text-white]="selectedLang() !== 'en'"
-              class="p-3 rounded-xl font-bold text-lg border-2 border-white text-center">
-              🇬🇧 English (?lang=en)
-            </button>
-          </div>
-        </div>
-
-        <!-- Parameter 3: Non-Interactive Mode -->
-        <div class="space-y-3 border-t-4 border-zinc-800 pt-6">
-          <label class="text-2xl font-black text-cyan-400 block uppercase">
-            3. Display Mode (?nonInteractive=true)
-          </label>
-          
-          <div (click)="isNonInteractive.set(!isNonInteractive())" class="bg-black border-4 border-cyan-400 p-6 rounded-2xl flex items-center justify-between cursor-pointer active:scale-[0.99] transition-transform">
-            <div>
-              <div class="text-2xl font-black text-white">
-                Non-Interactive Mode (For passive screens without touch overlay)
-              </div>
-              <div class="text-gray-400 font-bold text-lg mt-1">
-                Hides navigation bar, hides idle touch prompt, and auto-rotates content every 30 seconds.
-              </div>
-            </div>
-
-            <div 
-              [class.bg-cyan-400]="isNonInteractive()"
-              [class.text-black]="isNonInteractive()"
-              [class.bg-zinc-800]="!isNonInteractive()"
-              [class.text-gray-400]="!isNonInteractive()"
-              class="px-6 py-3 rounded-xl font-black text-2xl border-2 border-white">
-              {{ isNonInteractive() ? 'ENABLED' : 'DISABLED' }}
+          <!-- Parameter 1: Promote Subpage — horizontal label + buttons row -->
+          <div class="flex items-center gap-3 shrink-0">
+            <label class="text-sm sm:text-base font-black text-yellow-400 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+              1. Promoted Page
+            </label>
+            <div class="flex flex-1 gap-2">
+              <button 
+                *ngFor="let opt of promoteOptions"
+                (click)="onPromoteSelect(opt.value)"
+                [class.bg-yellow-400]="configService.promotedPage() === opt.value"
+                [class.text-black]="configService.promotedPage() === opt.value"
+                [class.border-white]="configService.promotedPage() === opt.value"
+                [class.bg-zinc-800]="configService.promotedPage() !== opt.value"
+                [class.text-white]="configService.promotedPage() !== opt.value"
+                class="flex-1 py-2 px-1 rounded-xl font-black text-xs sm:text-sm border-2 transition-all text-center">
+                {{ opt.label }}
+              </button>
             </div>
           </div>
-        </div>
 
-        <!-- Resulting Generated URL Box -->
-        <div class="space-y-4 border-t-4 border-zinc-800 pt-6">
-          <label class="text-2xl font-black text-yellow-300 block uppercase">
-            4. Generated Kiosk Target URL
-          </label>
-
-          <div class="bg-black border-4 border-yellow-400 rounded-2xl p-6 font-mono text-xl md:text-2xl text-yellow-300 break-all select-all">
-            {{ generatedUrl() }}
+          <!-- Promoted Demo Item — horizontal row, shown only for demos -->
+          <div *ngIf="configService.promotedPage() === 'demos'" class="flex items-center gap-3 bg-black/60 px-3 py-2 rounded-xl border-2 border-yellow-400 shrink-0">
+            <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+              👉 Demo Item
+            </label>
+            <div class="flex flex-1 gap-2">
+              <button 
+                *ngFor="let itemOpt of demoItemOptions"
+                (click)="onItemSelect(itemOpt.value)"
+                [class.bg-yellow-400]="configService.promotedItem() === itemOpt.value"
+                [class.text-black]="configService.promotedItem() === itemOpt.value"
+                [class.bg-zinc-800]="configService.promotedItem() !== itemOpt.value"
+                [class.text-white]="configService.promotedItem() !== itemOpt.value"
+                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-white text-center">
+                {{ itemOpt.label }}
+              </button>
+            </div>
           </div>
 
-          <div class="flex flex-col md:flex-row gap-4">
-            <button 
-              (click)="copyToClipboard()"
-              class="flex-1 bg-yellow-400 hover:bg-yellow-300 text-black py-4 rounded-2xl font-black text-2xl border-4 border-white shadow-xl transition-transform active:scale-95">
-              {{ copySuccess() ? '✓ COPIED TO CLIPBOARD!' : '📋 COPY URL' }}
-            </button>
-
-            <button 
-              (click)="launchUrl()"
-              class="flex-1 bg-cyan-400 hover:bg-cyan-300 text-black py-4 rounded-2xl font-black text-2xl border-4 border-white shadow-xl transition-transform active:scale-95">
-              🚀 LAUNCH PREVIEW
-            </button>
+          <!-- Promoted Video Item — horizontal row, shown only for media -->
+          <div *ngIf="configService.promotedPage() === 'media'" class="flex items-center gap-3 bg-black/60 px-3 py-2 rounded-xl border-2 border-cyan-400 shrink-0">
+            <label class="text-xs sm:text-sm font-black text-cyan-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+              👉 Video Item
+            </label>
+            <div class="flex flex-1 gap-2">
+              <button 
+                *ngFor="let itemOpt of mediaItemOptions"
+                (click)="onItemSelect(itemOpt.value)"
+                [class.bg-cyan-400]="configService.promotedItem() === itemOpt.value"
+                [class.text-black]="configService.promotedItem() === itemOpt.value"
+                [class.bg-zinc-800]="configService.promotedItem() !== itemOpt.value"
+                [class.text-white]="configService.promotedItem() !== itemOpt.value"
+                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-white text-center">
+                {{ itemOpt.label }}
+              </button>
+            </div>
           </div>
-        </div>
+
+          <!-- Parameter 2: Language — horizontal label + buttons row -->
+          <div class="flex items-center gap-3 border-t-2 border-zinc-800 pt-3 shrink-0">
+            <label class="text-sm sm:text-base font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+              2. Language
+            </label>
+            <div class="flex flex-1 gap-2">
+              <button 
+                (click)="lang.setLanguage('de')"
+                [class.bg-yellow-400]="lang.currentLang() === 'de'"
+                [class.text-black]="lang.currentLang() === 'de'"
+                [class.bg-zinc-800]="lang.currentLang() !== 'de'"
+                [class.text-white]="lang.currentLang() !== 'de'"
+                class="flex-1 py-2 rounded-xl font-bold text-xs sm:text-sm border border-white text-center">
+                🇩🇪 German (DE)
+              </button>
+              <button 
+                (click)="lang.setLanguage('en')"
+                [class.bg-yellow-400]="lang.currentLang() === 'en'"
+                [class.text-black]="lang.currentLang() === 'en'"
+                [class.bg-zinc-800]="lang.currentLang() !== 'en'"
+                [class.text-white]="lang.currentLang() !== 'en'"
+                class="flex-1 py-2 rounded-xl font-bold text-xs sm:text-sm border border-white text-center">
+                🇬🇧 English (EN)
+              </button>
+            </div>
+          </div>
+
+          <!-- Parameter 3: Non-Interactive Mode -->
+          <div class="border-t-2 border-zinc-800 pt-3 shrink-0">
+            <div (click)="toggleNonInteractive()" class="bg-black border-2 sm:border-4 border-cyan-400 p-3 sm:p-4 rounded-xl sm:rounded-2xl flex items-center justify-between cursor-pointer active:scale-[0.99] transition-transform">
+              <div>
+                <div class="text-sm sm:text-base font-black text-cyan-400 uppercase">3. Display Mode</div>
+                <div class="text-sm sm:text-lg font-black text-white mt-0.5">Non-Interactive Mode (Full Screen Showcase)</div>
+                <div class="text-gray-400 font-bold text-xs sm:text-sm mt-0.5">
+                  Launches promoted item full screen without navigation bar or buttons.
+                </div>
+              </div>
+              <div 
+                [class.bg-cyan-400]="configService.isNonInteractive()"
+                [class.text-black]="configService.isNonInteractive()"
+                [class.bg-zinc-800]="!configService.isNonInteractive()"
+                [class.text-gray-400]="!configService.isNonInteractive()"
+                class="px-4 py-2 rounded-xl font-black text-sm sm:text-lg border border-white shrink-0 ml-3">
+                {{ configService.isNonInteractive() ? 'ENABLED' : 'DISABLED' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Generated Kiosk URL & Action Buttons -->
+          <div class="flex-1 flex flex-col gap-3 border-t-2 border-zinc-800 pt-3 min-h-0">
+            <label class="text-sm sm:text-base font-black text-yellow-300 uppercase shrink-0">
+              4. Generated Target URL
+            </label>
+
+            <div class="flex-1 bg-black border-2 sm:border-4 border-yellow-400 rounded-xl p-3 font-mono text-xs sm:text-base text-yellow-300 break-all select-all overflow-auto">
+              {{ generatedUrl() }}
+            </div>
+
+            <!-- Action Buttons: Copy URL + Reset Configuration -->
+            <div class="grid grid-cols-2 gap-3 shrink-0">
+              <button 
+                (click)="copyToClipboard()"
+                class="bg-yellow-400 hover:bg-yellow-300 text-black py-3 rounded-xl sm:rounded-2xl font-black text-sm sm:text-xl border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
+                {{ copySuccess() ? '✓ COPIED!' : '📋 COPY URL' }}
+              </button>
+
+              <button 
+                (click)="resetConfig()"
+                class="bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-xl sm:rounded-2xl font-black text-sm sm:text-xl border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
+                {{ resetSuccess() ? '✓ RESET DONE!' : '🔄 RESET CONFIG' }}
+              </button>
+            </div>
+          </div>
 
       </main>
-
-      <footer class="text-gray-400 font-bold text-center text-lg mt-6">
-      </footer>
 
     </div>
   `
 })
-export class ConfigComponent {
-  private router = inject(Router);
+export class ConfigComponent implements OnInit {
+  readonly configService = inject(ConfigService);
+  readonly lang = inject(LanguageService);
 
   isAuthenticated = signal<boolean>(false);
   passwordInput = '';
   errorMessage = signal<string>('');
-
-  selectedPromote = signal<string | null>(null);
-  selectedItem = signal<string | null>(null);
-  selectedLang = signal<string | null>(null);
-  isNonInteractive = signal<boolean>(false);
   copySuccess = signal<boolean>(false);
+  resetSuccess = signal<boolean>(false);
 
-  readonly promoteOptions = [
-    { label: 'None (Home)', value: null },
-    { label: '🎥 Media', value: 'media' },
+  readonly promoteOptions: { label: string; value: PromotedPage }[] = [
+    { label: 'None', value: null },
     { label: '🚀 Demos', value: 'demos' },
+    { label: '🎥 Videos', value: 'media' },
     { label: '🎁 Raffle', value: 'raffle' },
     { label: 'ℹ️ About', value: 'about' }
   ];
 
   readonly demoItemOptions = [
-    { label: 'All / First', value: null },
+    { label: 'Default', value: null },
     { label: 'Baumkataster', value: 'baumkataster' },
     { label: 'SensorCity', value: 'sensorcity' },
     { label: 'Heatmap', value: 'heatmap' }
   ];
 
   readonly mediaItemOptions = [
-    { label: 'All / First', value: null },
+    { label: 'Default', value: null },
     { label: 'Hack Days 2024', value: '0' },
     { label: 'DAS FEST 2025', value: '1' },
     { label: 'Hack Days 2026', value: '2' }
   ];
 
-  onPromoteSelect(value: string | null): void {
-    this.selectedPromote.set(value);
-    this.selectedItem.set(null);
+  ngOnInit(): void {
+    this.configService.initConfiguration();
   }
 
   unlock(): void {
@@ -248,23 +234,45 @@ export class ConfigComponent {
     }
   }
 
+  onPromoteSelect(value: PromotedPage): void {
+    this.configService.setPromotedPage(value);
+    this.configService.setPromotedItem(null);
+  }
+
+  onItemSelect(value: string | null): void {
+    this.configService.setPromotedItem(value);
+  }
+
+  toggleNonInteractive(): void {
+    this.configService.setNonInteractive(!this.configService.isNonInteractive());
+  }
+
+  resetConfig(): void {
+    this.configService.resetConfiguration();
+    this.resetSuccess.set(true);
+    setTimeout(() => this.resetSuccess.set(false), 2500);
+  }
+
   generatedUrl(): string {
     const base = typeof window !== 'undefined' ? window.location.origin : 'https://oklabkiosk.melde.net';
     const params: string[] = [];
 
-    if (this.selectedPromote()) {
-      params.push(`promote=${this.selectedPromote()}`);
+    const promoted = this.configService.promotedPage();
+    if (promoted) {
+      params.push(`promote=${promoted}`);
     }
 
-    if (this.selectedItem()) {
-      params.push(`item=${this.selectedItem()}`);
+    const item = this.configService.promotedItem();
+    if (item) {
+      params.push(`item=${item}`);
     }
 
-    if (this.selectedLang()) {
-      params.push(`lang=${this.selectedLang()}`);
+    const currentLang = this.lang.currentLang();
+    if (currentLang) {
+      params.push(`lang=${currentLang}`);
     }
 
-    if (this.isNonInteractive()) {
+    if (this.configService.isNonInteractive()) {
       params.push(`nonInteractive=true`);
     }
 
@@ -281,27 +289,5 @@ export class ConfigComponent {
       this.copySuccess.set(true);
       setTimeout(() => this.copySuccess.set(false), 2500);
     }
-  }
-
-  launchUrl(): void {
-    const params: any = {};
-    if (this.selectedPromote()) {
-      params.promote = this.selectedPromote();
-    }
-    if (this.selectedItem()) {
-      params.item = this.selectedItem();
-    }
-    if (this.selectedLang()) {
-      params.lang = this.selectedLang();
-    }
-    if (this.isNonInteractive()) {
-      params.nonInteractive = 'true';
-    }
-
-    this.router.navigate(['/'], { queryParams: params });
-  }
-
-  goHome(): void {
-    this.router.navigate(['/']);
   }
 }
