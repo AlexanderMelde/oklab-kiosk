@@ -18,7 +18,7 @@
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
-    "@angular/service-worker": "^19.2.25",
+    "@angular/service-worker": "^22.0.0",
     "angularx-qrcode": "^21.0.5",
     "autoprefixer": "^10.5.4",
     "postcss": "^8.5.22",
