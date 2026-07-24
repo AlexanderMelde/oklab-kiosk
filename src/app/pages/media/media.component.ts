@@ -6,20 +6,20 @@ import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
 
 export const VIDEOS = [
-  { 
-    title: 'Open Data Hack Days 2024 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
-    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk' 
+  {
+    title: 'Open Data Hack Days 2024 - Aftermovie',
+    url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
+    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk'
   },
-  { 
-    title: 'OK Lab Karlsruhe @ DAS FEST 2025 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
-    externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A' 
+  {
+    title: 'OK Lab Karlsruhe @ DAS FEST 2025 - Aftermovie',
+    url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
+    externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A'
   },
-  { 
-    title: 'Open Data Hackdays Karlsruhe 2026 - Aftermovie', 
-    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1', 
-    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao' 
+  {
+    title: 'Open Data Hackdays Karlsruhe 2026 - Aftermovie',
+    url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
+    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao'
   }
 ];
 
@@ -35,10 +35,6 @@ export const VIDEOS = [
         
         <!-- Video List Selector Buttons -->
         <div class="flex items-center space-x-3 overflow-x-auto w-full lg:w-auto py-1">
-          <span class="text-cyan-400 font-black text-xl whitespace-nowrap mr-2 hidden xl:inline">
-            {{ lang.t().media.selectVideo }}
-          </span>
-
           <button 
             *ngFor="let video of videos; let i = index"
             (click)="selectVideo(i)"
@@ -78,7 +74,7 @@ export const VIDEOS = [
 
       <!-- Main Video Player Container with Click Lock Protection -->
       <div class="flex-1 w-full h-full relative bg-black flex items-center justify-center p-2">
-        <div class="relative w-full h-full max-w-6xl max-h-[85vh] rounded-3xl overflow-hidden border-4 border-zinc-800 shadow-2xl">
+        <div class="relative w-full h-full overflow-hidden">
           <iframe 
             *ngIf="safeUrl"
             [src]="safeUrl" 

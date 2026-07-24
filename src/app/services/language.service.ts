@@ -38,7 +38,6 @@ export interface Translations {
     subtitle: string;
     scanToWatch: string;
     watchPhone: string;
-    selectVideo: string;
   };
   raffle: {
     title: string;
@@ -93,7 +92,6 @@ const DE: Translations = {
     subtitle: 'Impressionen von den Open Data Hack Days & DAS FEST',
     scanToWatch: 'Auf YouTube ansehen:',
     watchPhone: 'Scannen & unterwegs anschauen',
-    selectVideo: 'Video auswählen:'
   },
   raffle: {
     title: 'GROSSES GEWINNSPIEL',
@@ -148,7 +146,6 @@ const EN: Translations = {
     subtitle: 'Impressions from Open Data Hack Days & DAS FEST',
     scanToWatch: 'Watch on YouTube:',
     watchPhone: 'Scan to watch on your phone',
-    selectVideo: 'Select video:'
   },
   raffle: {
     title: 'BIG RAFFLE',
