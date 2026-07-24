@@ -6,9 +6,9 @@ import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
 
 export const DEMOS = [
-  { title: 'Baumkataster', url: 'https://codeforkarlsruhe.github.io/baumkataster/' },
-  { title: 'SensorCity Explorer', url: 'https://maxliesegang.github.io/ka-sensorcity-explorer/' },
-  { title: 'Heatmap', url: 'https://neposoft2.de/oklab/sensor/heatmap' }
+  { title: '🌲 Baumkataster', url: 'https://codeforkarlsruhe.github.io/baumkataster/' },
+  { title: '⚡ SensorCity Explorer', url: 'https://maxliesegang.github.io/ka-sensorcity-explorer/' },
+  { title: '🌡️ Sensor Heatmap', url: 'https://neposoft2.de/oklab/sensor/heatmap' }
 ];
 
 @Component({
@@ -23,10 +23,6 @@ export const DEMOS = [
         
         <!-- Left: Demo Selector Buttons -->
         <div class="flex items-center space-x-3 overflow-x-auto w-full md:w-auto py-1">
-          <span class="text-yellow-400 font-black text-xl whitespace-nowrap mr-2 hidden lg:inline">
-            {{ lang.t().demos.selectDemo }}
-          </span>
-
           <button 
             *ngFor="let demo of demos; let i = index"
             (click)="selectDemo(i)"
@@ -37,7 +33,6 @@ export const DEMOS = [
             [class.text-white]="activeDemoIndex() !== i"
             [class.border-zinc-600]="activeDemoIndex() !== i"
             class="px-4 py-3 rounded-2xl font-black text-lg md:text-2xl border-4 transition-all whitespace-normal leading-tight max-w-[200px] md:max-w-[260px] text-left flex items-center space-x-2 shrink-0 active:scale-95">
-            <span class="text-2xl shrink-0">🚀</span>
             <span class="line-clamp-2">{{ demo.title }}</span>
           </button>
         </div>

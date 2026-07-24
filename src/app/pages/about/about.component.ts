@@ -44,12 +44,8 @@ import { LanguageService } from '../../services/language.service';
         </div>
 
         <!-- Right: Website QR Code -->
-        <div class="flex flex-col items-center justify-center bg-zinc-900 border-8 border-white p-8 rounded-3xl shadow-2xl text-center space-y-6">
-          <div class="text-yellow-400 font-black text-2xl md:text-3xl uppercase">
-            {{ lang.t().about.scanWebsite }}
-          </div>
-
-          <div class="bg-white p-4 rounded-3xl border-4 border-cyan-400 shadow-xl">
+        <div class="flex flex-col items-center justify-center bg-white p-8 rounded-3xl shadow-2xl text-center space-y-6">
+          <div class="bg-white p-4 rounded-3xl">
             <qrcode 
               [qrdata]="'https://ok-lab-karlsruhe.de'" 
               [width]="200" 

@@ -124,7 +124,7 @@ const EN: Translations = {
     videosDesc: 'Impressions from our events',
     demosTitle: 'Prototypes',
     demosDesc: 'Live-Demos of our projects',
-    raffleTitle: 'Raffle / Giveaway',
+    raffleTitle: 'Raffle',
     raffleDesc: 'Win microcontrollers, sensors & USB fans!',
     aboutTitle: 'About Us',
     aboutDesc: 'Who we are & how you can join'
