@@ -5,16 +5,17 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
 import { DemoStateService } from '../../services/demo-state.service';
+import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.directive';
 
 @Component({
   selector: 'app-demos',
   standalone: true,
-  imports: [CommonModule, QRCodeComponent],
+  imports: [CommonModule, QRCodeComponent, HorizontalScrollDirective],
   template: `
     <div class="h-full w-full bg-black text-white flex flex-col select-none overflow-hidden">
       
       <!-- Top Demo Selector Bar for Active Category -->
-      <div class="bg-zinc-900 border-b-4 border-yellow-400 p-3 px-4 flex items-center space-x-3 overflow-x-auto w-full z-10 shadow-xl py-2">
+      <div class="bg-zinc-900 border-b-4 border-yellow-400 p-3 px-4 flex items-center space-x-3 overflow-x-auto w-full z-10 shadow-xl py-2" appHorizontalScroll>
         <button 
           *ngFor="let demo of demoService.currentCategoryDemos()"
           (click)="demoService.onDemoClick(demo.id)"

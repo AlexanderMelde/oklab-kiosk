@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ConfigService, PromotedPage } from '../../services/config.service';
 import { LanguageService } from '../../services/language.service';
 import { DemoStateService, DemoCategoryId } from '../../services/demo-state.service';
+import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.directive';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HorizontalScrollDirective],
   template: `
     <div class="h-full w-full bg-black text-white p-3 sm:p-4 md:p-6 flex flex-col justify-between select-none overflow-hidden">
       
@@ -81,7 +82,7 @@ import { DemoStateService, DemoCategoryId } from '../../services/demo-state.serv
               <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
                 👉 Category
               </label>
-              <div class="flex flex-1 gap-2 overflow-x-auto py-0.5 items-center">
+              <div class="flex flex-1 gap-2 overflow-x-auto py-0.5 items-center" appHorizontalScroll>
                 <button 
                   (click)="setCategory('all')"
                   [class.bg-yellow-400]="selectedCategory() === 'all'"
@@ -113,7 +114,7 @@ import { DemoStateService, DemoCategoryId } from '../../services/demo-state.serv
               <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
                 👉 Demo Item
               </label>
-              <div class="flex flex-1 gap-2.5 overflow-x-auto py-0.5 max-h-24 sm:max-h-28 overflow-y-auto">
+              <div class="flex flex-1 gap-2.5 overflow-x-auto py-0.5 max-h-24 sm:max-h-28 overflow-y-auto" appHorizontalScroll>
                 <button 
                   *ngFor="let demo of filteredDemos()"
                   (click)="onItemSelect(demo.id)"

@@ -8,18 +8,19 @@ import { ConfigService } from '../../services/config.service';
 import { DemoStateService } from '../../services/demo-state.service';
 import { MediaStateService } from '../../services/media-state.service';
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
+import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, LanguageToggleComponent, QRCodeComponent],
+  imports: [CommonModule, RouterLink, LanguageToggleComponent, QRCodeComponent, HorizontalScrollDirective],
   template: `
     <header 
       *ngIf="!configService.isNonInteractive()"
       class="bg-black border-b-4 border-yellow-400 px-4 py-3 flex items-center justify-between shadow-2xl select-none z-40 relative">
       
       <!-- Left Side: Brand Title (Home only) OR Single Icon Button & Category/Media Tabs -->
-      <div class="flex items-center space-x-3 md:space-x-4 overflow-x-auto py-0.5">
+      <div class="flex items-center space-x-3 md:space-x-4 overflow-x-auto py-0.5" appHorizontalScroll>
         <!-- Prominent Large Brand Title (Shown ONLY on Home '/') -->
         <a *ngIf="isHome()" routerLink="/" class="flex flex-col justify-center cursor-pointer group py-1">
           <h1 class="text-3xl md:text-5xl font-black tracking-tight text-yellow-400 uppercase leading-none group-hover:text-yellow-300">
