@@ -33,8 +33,13 @@ export const VIDEOS: VideoItem[] = [
 })
 export class MediaStateService {
   readonly videos = VIDEOS;
-  readonly activeVideoIndex = signal<number>(0);
+  readonly activeVideoId = signal<string>('hackdays2026');
   readonly showQrPopup = signal<boolean>(false);
+
+  readonly activeVideoIndex = computed(() => {
+    const idx = this.videos.findIndex(v => v.id === this.activeVideoId());
+    return idx !== -1 ? idx : 0;
+  });
 
   readonly activeVideo = computed(() => 
     this.videos[this.activeVideoIndex()] || this.videos[0]
@@ -88,10 +93,7 @@ export class MediaStateService {
     if (hash) {
       const video = this.findVideo(hash);
       if (video) {
-        const idx = this.videos.indexOf(video);
-        if (idx !== -1) {
-          this.selectVideo(idx, false);
-        }
+        this.selectVideo(video.id, false);
       }
     }
   }
@@ -99,24 +101,23 @@ export class MediaStateService {
   selectVideo(indexOrQuery: number | string, updateHash: boolean = true): void {
     const video = this.findVideo(indexOrQuery);
     if (video) {
-      const numericIndex = this.videos.indexOf(video);
-      if (numericIndex !== -1) {
-        this.activeVideoIndex.set(numericIndex);
+      this.activeVideoId.set(video.id);
 
-        if (updateHash && typeof window !== 'undefined') {
-          const newUrl = window.location.pathname + window.location.search + '#' + video.id;
-          window.history.replaceState(null, '', newUrl);
-        }
+      if (updateHash && typeof window !== 'undefined') {
+        const newUrl = window.location.pathname + window.location.search + '#' + video.id;
+        window.history.replaceState(null, '', newUrl);
       }
     }
   }
 
-  onButtonClick(index: number | string): void {
-    const numIdx = typeof index === 'string' ? Number(index) : index;
-    if (this.activeVideoIndex() === numIdx) {
+  onButtonClick(indexOrQuery: number | string): void {
+    const video = this.findVideo(indexOrQuery);
+    if (!video) return;
+
+    if (this.activeVideoId() === video.id) {
       this.showQrPopup.set(true);
     } else {
-      this.selectVideo(numIdx);
+      this.selectVideo(video.id);
     }
   }
 }

@@ -76,15 +76,15 @@ import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.di
           <!-- Video Selection Buttons in Header Title Bar -->
           <div *ngIf="isMedia()" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
             <button 
-              *ngFor="let video of mediaService.videos; let i = index"
-              (click)="mediaService.onButtonClick(i)"
-              [class.bg-cyan-400]="mediaService.activeVideoIndex() === i"
-              [class.text-black]="mediaService.activeVideoIndex() === i"
-              [class.border-white]="mediaService.activeVideoIndex() === i"
-              [class.bg-zinc-800]="mediaService.activeVideoIndex() !== i"
-              [class.text-white]="mediaService.activeVideoIndex() !== i"
-              [class.border-zinc-600]="mediaService.activeVideoIndex() !== i"
-              [class.hover:bg-zinc-700]="mediaService.activeVideoIndex() !== i"
+              *ngFor="let video of mediaService.videos"
+              (click)="mediaService.onButtonClick(video.id)"
+              [class.bg-cyan-400]="mediaService.activeVideoId() === video.id"
+              [class.text-black]="mediaService.activeVideoId() === video.id"
+              [class.border-white]="mediaService.activeVideoId() === video.id"
+              [class.bg-zinc-800]="mediaService.activeVideoId() !== video.id"
+              [class.text-white]="mediaService.activeVideoId() !== video.id"
+              [class.border-zinc-600]="mediaService.activeVideoId() !== video.id"
+              [class.hover:bg-zinc-700]="mediaService.activeVideoId() !== video.id"
               class="h-16 py-2 px-4 sm:px-5 box-border rounded-2xl font-black text-lg sm:text-xl md:text-2xl leading-none border-4 transition-all flex items-center justify-center gap-3 shrink-0 active:scale-95 shadow-lg">
               
               <div class="flex items-center gap-2">
@@ -94,7 +94,7 @@ import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.di
 
               <!-- Active state QR Code functionality -->
               <div 
-                *ngIf="mediaService.activeVideoIndex() === i"
+                *ngIf="mediaService.activeVideoId() === video.id"
                 class="flex items-center gap-2 pl-3 border-l-2 border-black/20 shrink-0">
                 <div class="bg-white p-1 rounded-xl shadow shrink-0 flex items-center justify-center">
                   <qrcode 

@@ -87,14 +87,14 @@ export class MediaComponent implements OnInit, OnDestroy {
     if (targetVideo) {
       this.mediaService.selectVideo(targetVideo.id);
     } else {
-      this.mediaService.selectVideo(this.mediaService.activeVideoIndex());
+      this.mediaService.selectVideo(this.mediaService.activeVideoId());
     }
 
     // Auto-cycle in non-interactive mode
     if (this.configService.isNonInteractive()) {
       this.rotationInterval = setInterval(() => {
         const nextIndex = (this.mediaService.activeVideoIndex() + 1) % this.mediaService.videos.length;
-        this.mediaService.selectVideo(nextIndex);
+        this.mediaService.selectVideo(this.mediaService.videos[nextIndex].id);
       }, 30000);
     }
   }
