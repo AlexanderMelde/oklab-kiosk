@@ -139,67 +139,13 @@ export class DemosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#/, '').toLowerCase() : '';
-    const hashDemo = hash ? this.demoService.demos.find(d => d.id.toLowerCase() === hash) : null;
-    
-    if (hashDemo) {
-      this.demoService.selectDemo(hashDemo.id);
+    const item = hash || this.configService.promotedItem();
+    const targetDemo = item ? this.demoService.findDemo(item) : null;
+
+    if (targetDemo) {
+      this.demoService.selectDemo(targetDemo.id);
     } else {
-      // Select specific demo if promoted via query parameter
-      const item = this.configService.promotedItem()?.toLowerCase();
-      if (item) {
-        const exactDemo = this.demoService.demos.find(d => d.id === item);
-        if (exactDemo) {
-          this.demoService.selectDemo(exactDemo.id);
-        } else if (item.includes('sensorcity') || item.includes('explorer')) {
-          this.demoService.selectDemo('sensorcity');
-        } else if (item.includes('heatmap') || item.includes('heat')) {
-          this.demoService.selectDemo('heatmap');
-        } else if (item.includes('platane') || item.includes('frag') || item.includes('ragdemo')) {
-          this.demoService.selectDemo('platane');
-        } else if (item.includes('papperlapp')) {
-          this.demoService.selectDemo('papperlapp');
-        } else if (item.includes('baum') || item.includes('kataster')) {
-          this.demoService.selectDemo('baumkataster');
-        } else if (item.includes('auenlaend') || item.includes('karla')) {
-          this.demoService.selectDemo('auenlaend');
-        } else if (item.includes('markt') || item.includes('wo-ist-markt')) {
-          this.demoService.selectDemo('wo-ist-markt');
-        } else if (item.includes('farmshop')) {
-          this.demoService.selectDemo('farmshops');
-        } else if (item.includes('accident') || item.includes('ppka')) {
-          this.demoService.selectDemo('bike-accident-map');
-        } else if (item.includes('parking')) {
-          this.demoService.selectDemo('bike-parking');
-        } else if (item.includes('laufweite')) {
-          this.demoService.selectDemo('ka-laufweite');
-        } else if (item.includes('travic')) {
-          this.demoService.selectDemo('travic');
-        } else if (item.includes('oparl')) {
-          this.demoService.selectDemo('oparl-viewer');
-        } else if (item.includes('haushalt')) {
-          this.demoService.selectDemo('karlsruhe-haushalt');
-        } else if (item.includes('verwaltungstracker') || item.includes('tracker')) {
-          this.demoService.selectDemo('verwaltungstracker');
-        } else if (item.includes('fragify')) {
-          this.demoService.selectDemo('fragify');
-        } else if (item.includes('meinantrag') || item.includes('antrag')) {
-          this.demoService.selectDemo('meinantrag');
-        } else if (item.includes('klimawatch')) {
-          this.demoService.selectDemo('klimawatch');
-        } else if (item.includes('co2')) {
-          this.demoService.selectDemo('co2runter');
-        } else if (item.includes('access')) {
-          this.demoService.selectDemo('access-map');
-        } else if (item.includes('osm') || item.includes('show-me-the-way')) {
-          this.demoService.selectDemo('osm-live-edit');
-        } else if (item.includes('ifg') || item.includes('petition')) {
-          this.demoService.selectDemo('ifg-petition');
-        } else {
-          this.demoService.selectDemo(this.demoService.activeDemoId());
-        }
-      } else {
-        this.demoService.selectDemo(this.demoService.activeDemoId());
-      }
+      this.demoService.selectDemo(this.demoService.activeDemoId());
     }
 
     // Auto-cycle in non-interactive mode

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfigService, PromotedPage } from '../../services/config.service';
 import { LanguageService } from '../../services/language.service';
 import { DemoStateService, DemoCategoryId } from '../../services/demo-state.service';
+import { MediaStateService } from '../../services/media-state.service';
 import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.directive';
 
 @Component({
@@ -233,6 +234,7 @@ export class ConfigComponent implements OnInit {
   readonly configService = inject(ConfigService);
   readonly lang = inject(LanguageService);
   readonly demoService = inject(DemoStateService);
+  readonly mediaService = inject(MediaStateService);
 
   isAuthenticated = signal<boolean>(false);
   passwordInput = '';
@@ -250,12 +252,12 @@ export class ConfigComponent implements OnInit {
     { label: 'ℹ️ About', value: 'about' }
   ];
 
-  readonly mediaItemOptions = [
-    { label: 'Default', value: null },
-    { label: 'Hack Days 2024', value: '0' },
-    { label: 'DAS FEST 2025', value: '1' },
-    { label: 'Hack Days 2026', value: '2' }
-  ];
+  get mediaItemOptions() {
+    return [
+      { label: 'Default', value: null },
+      ...this.mediaService.videos.map(v => ({ label: v.title, value: v.id }))
+    ];
+  }
 
   getCategoryTitle(titleKey: string): string {
     const t = this.lang.t().demos as Record<string, any>;

@@ -9,6 +9,7 @@ export interface DemoItem {
   category: DemoCategoryId;
   description: string;
   noEmbed?: boolean;
+  aliases?: string[];
 }
 
 export interface DemoCategory {
@@ -39,7 +40,8 @@ export const DEMOS: DemoItem[] = [
     title: '💬 Frag die Platane',
     url: 'https://llama.ok-lab-karlsruhe.de/ragdemo/',
     category: 'environment',
-    description: 'RAG-basiertes Sprach-Interface für Fragen rund um Bäume und Umwelt in Karlsruhe.'
+    description: 'RAG-basiertes Sprach-Interface für Fragen rund um Bäume und Umwelt in Karlsruhe.',
+    aliases: ['frag', 'ragdemo']
   },
   {
     id: 'papperlapp',
@@ -53,7 +55,8 @@ export const DEMOS: DemoItem[] = [
     title: '🐸 Auenländ ChatBot',
     url: 'https://auenlaend.ok-lab-karlsruhe.de/',
     category: 'environment',
-    description: 'Ein zivilgesellschaftliches Frontend-Projekt für den KI-Umwelt-Chatbot KarlA. Es visualisiert komplexe ökologische Daten der Karlsruher Rheinauen und fördert interaktives Naturverständnis.'
+    description: 'Ein zivilgesellschaftliches Frontend-Projekt für den KI-Umwelt-Chatbot KarlA. Es visualisiert komplexe ökologische Daten der Karlsruher Rheinauen und fördert interaktives Naturverständnis.',
+    aliases: ['karla']
   },
   {
     id: 'klimawatch',
@@ -72,11 +75,27 @@ export const DEMOS: DemoItem[] = [
 
   // Kategorie Sensoren
   {
+    id: 'sensor-community',
+    title: '🌐 Sensor.community',
+    url: 'https://maps.sensor.community/',
+    category: 'sensors',
+    description: 'Sensor.community ist ein von vielen Mitwirkenden betriebenes, globales Sensornetzwerk, das open data Umweltdaten generiert.',
+    aliases: ['community']
+  },
+  {
     id: 'sensorcity',
     title: '⚡ SensorCity Explorer',
     url: 'https://maxliesegang.github.io/ka-sensorcity-explorer/',
     category: 'sensors',
-    description: 'Erkundungstool für Umwelt- und Feinstaub-Sensoren im Stadtgebiet Karlsruhe.'
+    description: 'Erkundungstool für Umwelt- und Feinstaub-Sensoren im Stadtgebiet Karlsruhe.',
+    aliases: ['explorer']
+  },
+  {
+    id: 'sensorcity-dashboard',
+    title: '⚡ SensorCity',
+    url: 'https://geoportal.karlsruhe.de/sensorcity/Dashboard/',
+    category: 'sensors',
+    description: 'Offizielles Dashboard für städtische Umwelt- und Feinstaub-Sensoren im Stadtgebiet Karlsruhe.'
   },
   {
     id: 'heatmap',
@@ -108,7 +127,8 @@ export const DEMOS: DemoItem[] = [
     title: '🚴 Bike Accident Map',
     url: 'https://maxliesegang.github.io/ppka-bike-accident-map/',
     category: 'mobility',
-    description: 'Spezialisierte Mapping-Anwendung zur punktgenauen Visualisierung von Fahrradunfällen in Karlsruhe. Das Werkzeug dient der Identifikation urbaner Gefahrenzonen und unterstützt datengetriebene Verkehrspolitik.'
+    description: 'Spezialisierte Mapping-Anwendung zur punktgenauen Visualisierung von Fahrradunfällen in Karlsruhe. Das Werkzeug dient der Identifikation urbaner Gefahrenzonen und unterstützt datengetriebene Verkehrspolitik.',
+    aliases: ['ppka', 'accident']
   },
   {
     id: 'bike-parking',
@@ -144,10 +164,18 @@ export const DEMOS: DemoItem[] = [
     title: '🌐 OSM Live Edit',
     url: 'https://osmlab.github.io/show-me-the-way/',
     category: 'mobility',
-    description: 'See OpenStreetMap edits happen in real time.'
+    description: 'See OpenStreetMap edits happen in real time.',
+    aliases: ['show-me-the-way']
   },
 
   // Kategorie Kommunalpolitik
+  {
+    id: 'karlsruhe-haushalt',
+    title: '📊 KA Haushalt',
+    url: 'https://maxliesegang.github.io/karlsruhe-haushalt',
+    category: 'politics',
+    description: 'Webbasierte Visualisierung des Karlsruher Kommunalhaushalts. Die Applikation übersetzt abstrakte fiskalische Datenströme in interaktive Grafiken und erleichtert die bürgerschaftliche Teilhabe an Finanzen.'
+  },
   {
     id: 'verwaltungstracker',
     title: '🏛️ VerwaltungsTracker',
@@ -157,17 +185,10 @@ export const DEMOS: DemoItem[] = [
   },
   {
     id: 'oparl-viewer',
-    title: '📜 Karlsruhe OParl Viewer',
+    title: '📜 KA OParl Viewer',
     url: 'https://maxliesegang.github.io/karlsruhe-oparl-viewer/',
     category: 'politics',
     description: 'Ein hochperformantes Suchwerkzeug, das über die OParl-Schnittstelle kommunale Dokumente ausliest. Mittels astro-pagefind ermöglicht es eine schnelle Volltextsuche und stärkt die politische Transparenz.'
-  },
-  {
-    id: 'karlsruhe-haushalt',
-    title: '📊 Karlsruhe Haushalt',
-    url: 'https://maxliesegang.github.io/karlsruhe-haushalt',
-    category: 'politics',
-    description: 'Webbasierte Visualisierung des Karlsruher Kommunalhaushalts. Die Applikation übersetzt abstrakte fiskalische Datenströme in interaktive Grafiken und erleichtert die bürgerschaftliche Teilhabe an Finanzen.'
   },
   {
     id: 'fragify',
@@ -229,11 +250,43 @@ export class DemoStateService {
     if (typeof window === 'undefined') return;
     const hash = window.location.hash.replace(/^#/, '').toLowerCase();
     if (hash) {
-      const demo = this.demos.find(d => d.id.toLowerCase() === hash);
+      const demo = this.findDemo(hash);
       if (demo) {
         this.selectDemo(demo.id, false);
       }
     }
+  }
+
+  findDemo(query: string | null | undefined): DemoItem | undefined {
+    if (!query) return undefined;
+    const q = query.toLowerCase().trim();
+    if (!q) return undefined;
+
+    // 1. Exact ID match
+    const exact = this.demos.find(d => d.id.toLowerCase() === q);
+    if (exact) return exact;
+
+    // 2. Exact alias match
+    const aliasMatch = this.demos.find(d => d.aliases?.some(a => a.toLowerCase() === q));
+    if (aliasMatch) return aliasMatch;
+
+    // 3. Substring match on ID or query
+    const idMatch = this.demos.find(d => {
+      const id = d.id.toLowerCase();
+      return id.includes(q) || q.includes(id);
+    });
+    if (idMatch) return idMatch;
+
+    // 4. Substring match on alias
+    const aliasSubstring = this.demos.find(d =>
+      d.aliases?.some(a => {
+        const alias = a.toLowerCase();
+        return alias.includes(q) || q.includes(alias);
+      })
+    );
+    if (aliasSubstring) return aliasSubstring;
+
+    return undefined;
   }
 
   selectCategory(catId: DemoCategoryId): void {
@@ -246,10 +299,10 @@ export class DemoStateService {
     }
   }
 
-  selectDemo(demoId: string, updateHash: boolean = true): void {
-    const demo = this.demos.find(d => d.id === demoId);
+  selectDemo(demoIdOrQuery: string, updateHash: boolean = true): void {
+    const demo = this.findDemo(demoIdOrQuery);
     if (demo) {
-      this.activeDemoId.set(demoId);
+      this.activeDemoId.set(demo.id);
       this.activeCategory.set(demo.category);
 
       if (updateHash && typeof window !== 'undefined') {

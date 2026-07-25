@@ -1,4 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { DemoStateService } from './demo-state.service';
+import { MediaStateService } from './media-state.service';
 
 export type PromotedPage = 'demos' | 'media' | 'raffle' | 'about' | null;
 
@@ -12,6 +14,9 @@ const STORAGE_KEYS = {
   providedIn: 'root'
 })
 export class ConfigService {
+  private demoService = inject(DemoStateService);
+  private mediaService = inject(MediaStateService);
+
   readonly isNonInteractive = signal<boolean>(false);
   readonly promotedPage = signal<PromotedPage>(null);
   readonly promotedItem = signal<string | null>(null);
@@ -74,10 +79,10 @@ export class ConfigService {
         this.setPromotedPage('raffle');
       } else if (['demos', 'media', 'about'].includes(promoteParam)) {
         this.setPromotedPage(promoteParam as PromotedPage);
-      } else if (['baumkataster', 'sensorcity', 'heatmap'].includes(promoteParam)) {
+      } else if (this.demoService.findDemo(promoteParam)) {
         this.setPromotedPage('demos');
         this.setPromotedItem(promoteParam);
-      } else if (['aftermovie2024', 'aftermovie2025', 'aftermovie2026', 'hackdays2024', 'dasfest2025', 'hackdays2026'].includes(promoteParam)) {
+      } else if (this.mediaService.findVideo(promoteParam)) {
         this.setPromotedPage('media');
         this.setPromotedItem(promoteParam);
       }
