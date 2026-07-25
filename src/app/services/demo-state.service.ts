@@ -139,8 +139,22 @@ export const DEMOS: DemoItem[] = [
     category: 'mobility',
     description: 'Wie sieht Karlsruhe für Rollstuhlfahrer aus? Visualisierung der Barrierefreiheit von Karlsruher ÖPNV Haltestellen.'
   },
+  {
+    id: 'osm-live-edit',
+    title: '🌐 OSM Live Edit',
+    url: 'https://osmlab.github.io/show-me-the-way/',
+    category: 'mobility',
+    description: 'See OpenStreetMap edits happen in real time.'
+  },
 
   // Kategorie Kommunalpolitik
+  {
+    id: 'verwaltungstracker',
+    title: '🏛️ VerwaltungsTracker',
+    url: 'https://verwaltungstracker.de/',
+    category: 'politics',
+    description: 'Ein zivilgesellschaftliches Kontrollinstrument, das über 60 kommunale Vorhaben in Karlsruhe überwacht. Es dokumentiert Planungsfortschritte und fördert eine gerechte sozial-ökologische Stadtentwicklung.'
+  },
   {
     id: 'oparl-viewer',
     title: '📜 Karlsruhe OParl Viewer',
@@ -156,13 +170,6 @@ export const DEMOS: DemoItem[] = [
     description: 'Webbasierte Visualisierung des Karlsruher Kommunalhaushalts. Die Applikation übersetzt abstrakte fiskalische Datenströme in interaktive Grafiken und erleichtert die bürgerschaftliche Teilhabe an Finanzen.'
   },
   {
-    id: 'verwaltungstracker',
-    title: '🏛️ VerwaltungsTracker',
-    url: 'https://verwaltungstracker.de/',
-    category: 'politics',
-    description: 'Ein zivilgesellschaftliches Kontrollinstrument, das über 60 kommunale Vorhaben in Karlsruhe überwacht. Es dokumentiert Planungsfortschritte und fördert eine gerechte sozial-ökologische Stadtentwicklung.'
-  },
-  {
     id: 'fragify',
     title: '🔍 Fragify',
     url: 'https://fragify.project-insanity.org/',
@@ -175,6 +182,13 @@ export const DEMOS: DemoItem[] = [
     url: 'https://meinantrag.project-insanity.org/',
     category: 'politics',
     description: 'Digitale Hilfsplattform zur Entbürokratisierung studentischer Verwaltungsprozesse. Sie unterstützt zielgerichtet bei komplexen Antragsverfahren, wie der Beantragung eines BAföG-Flexibilitätssemesters.'
+  },
+  {
+    id: 'ifg-petition',
+    title: '📢 Rettet das IFG!',
+    url: 'https://weact.campact.de/petitions/spd-stoppt-den-frontalangriff-auf-die-informationsfreiheit',
+    category: 'politics',
+    description: 'Wir alle haben das Recht auf staatliche Informationen. Seit 2006 müssen Behörden auf Antrag nach dem IFG Dokumente herausgeben – Verträge, Weisungen oder E-Mails. Das IFG ist eine zentrale Säule der Demokratie in Deutschland.'
   }
 ];
 
@@ -189,11 +203,11 @@ export class DemoStateService {
   readonly activeDemoId = signal<string>('baumkataster');
   readonly showQrPopup = signal<boolean>(false);
 
-  readonly currentCategoryDemos = computed(() => 
+  readonly currentCategoryDemos = computed(() =>
     this.demos.filter(d => d.category === this.activeCategory())
   );
 
-  readonly activeDemo = computed(() => 
+  readonly activeDemo = computed(() =>
     this.demos.find(d => d.id === this.activeDemoId()) || this.demos[0]
   );
 

@@ -49,7 +49,7 @@ import { DemoStateService } from '../../services/demo-state.service';
       </div>
 
       <!-- Main Iframe Display Container / Non-Embed fallback view -->
-      <div class="flex-1 w-full h-full relative bg-zinc-950 flex items-center justify-center p-4 sm:p-8 overflow-y-auto">
+      <div class="flex-1 w-full h-full relative bg-zinc-950 flex items-center justify-center sm:p-8 overflow-y-auto">
         <iframe 
           *ngIf="!demoService.activeDemo().noEmbed && safeUrl"
           [src]="safeUrl" 
@@ -180,6 +180,10 @@ export class DemosComponent implements OnInit, OnDestroy {
         this.demoService.selectDemo('co2runter');
       } else if (item.includes('access')) {
         this.demoService.selectDemo('access-map');
+      } else if (item.includes('osm') || item.includes('show-me-the-way')) {
+        this.demoService.selectDemo('osm-live-edit');
+      } else if (item.includes('ifg') || item.includes('petition')) {
+        this.demoService.selectDemo('ifg-petition');
       }
     }
 

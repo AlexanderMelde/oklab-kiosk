@@ -91,9 +91,9 @@ const DE: Translations = {
     selectDemo: 'Demo auswählen:',
     tabEnvironment: 'Umwelt',
     tabSensors: 'Sensoren',
-    tabSupply: 'Lokale Versorgung',
-    tabMobility: 'Verkehr & Mobilität',
-    tabPolitics: 'Kommunalpolitik'
+    tabSupply: 'Versorgung',
+    tabMobility: 'Mobilität',
+    tabPolitics: 'Politik'
   },
   media: {
     title: 'Videos',
