@@ -45,6 +45,9 @@ export interface Translations {
     description: string;
     callToAction: string;
     scanPrompt: string;
+    prizesMicrocontrollers: string;
+    prizesSensors: string;
+    prizesFans: string;
   };
   about: {
     title: string;
@@ -106,7 +109,10 @@ const DE: Translations = {
     headline: 'Gewinne Mikrocontroller, Sensoren & USB-Ventilatoren!',
     description: 'Teste dein Glück und erfahre mehr über Open Data & Civic Tech in Karlsruhe. Scanne einfach den QR-Code mit deinem Smartphone, um direkt am Gewinnspiel teilzunehmen!',
     callToAction: 'JETZT MITMACHEN!',
-    scanPrompt: 'Scannen & gewinnen'
+    scanPrompt: 'Scannen & gewinnen',
+    prizesMicrocontrollers: 'Mikrocontroller',
+    prizesSensors: 'Sensoren',
+    prizesFans: 'USB-Ventilatoren'
   },
   about: {
     title: 'Über das OK Lab Karlsruhe',
@@ -168,7 +174,10 @@ const EN: Translations = {
     headline: 'Win Microcontrollers, Sensors & USB Fans!',
     description: 'Test your luck and learn about Open Data & Civic Tech in Karlsruhe. Simply scan the QR code with your smartphone to join the giveaway!',
     callToAction: 'ENTER RAFFLE NOW!',
-    scanPrompt: 'Scan to participate'
+    scanPrompt: 'Scan to participate',
+    prizesMicrocontrollers: 'Microcontrollers',
+    prizesSensors: 'Sensors',
+    prizesFans: 'USB Fans'
   },
   about: {
     title: 'About OK Lab Karlsruhe',
