@@ -80,17 +80,28 @@ export class MediaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Select specific video if promoted via query parameter
-    const item = this.configService.promotedItem()?.toLowerCase();
-    if (item) {
-      if (item.includes('2025') || item.includes('fest')) {
-        this.mediaService.selectVideo(1);
-      } else if (item.includes('2026')) {
-        this.mediaService.selectVideo(0);
-      } else if (item.includes('2024')) {
-        this.mediaService.selectVideo(2);
-      } else if (item === '0' || item === '1' || item === '2') {
-        this.mediaService.selectVideo(Number(item));
+    const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#/, '').toLowerCase() : '';
+    const hashIndex = hash ? this.mediaService.videos.findIndex(v => v.id.toLowerCase() === hash) : -1;
+
+    if (hashIndex !== -1) {
+      this.mediaService.selectVideo(hashIndex);
+    } else {
+      // Select specific video if promoted via query parameter
+      const item = this.configService.promotedItem()?.toLowerCase();
+      if (item) {
+        if (item.includes('2025') || item.includes('fest')) {
+          this.mediaService.selectVideo(1);
+        } else if (item.includes('2026')) {
+          this.mediaService.selectVideo(0);
+        } else if (item.includes('2024')) {
+          this.mediaService.selectVideo(2);
+        } else if (item === '0' || item === '1' || item === '2') {
+          this.mediaService.selectVideo(Number(item));
+        } else {
+          this.mediaService.selectVideo(this.mediaService.activeVideoIndex());
+        }
+      } else {
+        this.mediaService.selectVideo(this.mediaService.activeVideoIndex());
       }
     }
 

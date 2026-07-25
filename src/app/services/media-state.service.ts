@@ -40,9 +40,44 @@ export class MediaStateService {
     this.videos[this.activeVideoIndex()] || this.videos[0]
   );
 
-  selectVideo(index: number): void {
+  constructor() {
+    this.initHashListener();
+  }
+
+  private initHashListener(): void {
+    if (typeof window !== 'undefined') {
+      this.checkUrlHash();
+      window.addEventListener('hashchange', () => {
+        this.checkUrlHash();
+      });
+    }
+  }
+
+  private checkUrlHash(): void {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+    if (hash) {
+      const idx = this.videos.findIndex(v => v.id.toLowerCase() === hash);
+      if (idx !== -1) {
+        this.selectVideo(idx, false);
+      } else if (!isNaN(Number(hash))) {
+        const numIdx = Number(hash);
+        if (numIdx >= 0 && numIdx < this.videos.length) {
+          this.selectVideo(numIdx, false);
+        }
+      }
+    }
+  }
+
+  selectVideo(index: number, updateHash: boolean = true): void {
     if (index >= 0 && index < this.videos.length) {
       this.activeVideoIndex.set(index);
+
+      if (updateHash && typeof window !== 'undefined') {
+        const videoId = this.videos[index].id;
+        const newUrl = window.location.pathname + window.location.search + '#' + videoId;
+        window.history.replaceState(null, '', newUrl);
+      }
     }
   }
 

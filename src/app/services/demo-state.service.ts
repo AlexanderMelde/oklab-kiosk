@@ -188,7 +188,8 @@ export const DEMOS: DemoItem[] = [
     title: '📢 Rettet das IFG!',
     url: 'https://weact.campact.de/petitions/spd-stoppt-den-frontalangriff-auf-die-informationsfreiheit',
     category: 'politics',
-    description: 'Wir alle haben das Recht auf staatliche Informationen. Seit 2006 müssen Behörden auf Antrag nach dem IFG Dokumente herausgeben – Verträge, Weisungen oder E-Mails. Das IFG ist eine zentrale Säule der Demokratie in Deutschland.'
+    description: 'Wir alle haben das Recht auf staatliche Informationen. Seit 2006 müssen Behörden auf Antrag nach dem IFG Dokumente herausgeben – Verträge, Weisungen oder E-Mails. Das IFG ist eine zentrale Säule der Demokratie in Deutschland.',
+    noEmbed: true
   }
 ];
 
@@ -211,6 +212,30 @@ export class DemoStateService {
     this.demos.find(d => d.id === this.activeDemoId()) || this.demos[0]
   );
 
+  constructor() {
+    this.initHashListener();
+  }
+
+  private initHashListener(): void {
+    if (typeof window !== 'undefined') {
+      this.checkUrlHash();
+      window.addEventListener('hashchange', () => {
+        this.checkUrlHash();
+      });
+    }
+  }
+
+  private checkUrlHash(): void {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+    if (hash) {
+      const demo = this.demos.find(d => d.id.toLowerCase() === hash);
+      if (demo) {
+        this.selectDemo(demo.id, false);
+      }
+    }
+  }
+
   selectCategory(catId: DemoCategoryId): void {
     this.activeCategory.set(catId);
     if (this.activeDemo().category !== catId) {
@@ -221,11 +246,16 @@ export class DemoStateService {
     }
   }
 
-  selectDemo(demoId: string): void {
+  selectDemo(demoId: string, updateHash: boolean = true): void {
     const demo = this.demos.find(d => d.id === demoId);
     if (demo) {
       this.activeDemoId.set(demoId);
       this.activeCategory.set(demo.category);
+
+      if (updateHash && typeof window !== 'undefined') {
+        const newUrl = window.location.pathname + window.location.search + '#' + demo.id;
+        window.history.replaceState(null, '', newUrl);
+      }
     }
   }
 

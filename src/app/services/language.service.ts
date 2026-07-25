@@ -153,9 +153,9 @@ const EN: Translations = {
     selectDemo: 'Select demo:',
     tabEnvironment: 'Environment',
     tabSensors: 'Sensors',
-    tabSupply: 'Local Supply',
-    tabMobility: 'Mobility & Transport',
-    tabPolitics: 'Local Politics'
+    tabSupply: 'Supply',
+    tabMobility: 'Mobility',
+    tabPolitics: 'Politics'
   },
   media: {
     title: 'Videos',

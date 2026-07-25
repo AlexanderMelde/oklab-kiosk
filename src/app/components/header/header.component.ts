@@ -182,9 +182,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onReload(): void {
-    this.reloadRequested.emit();
-    setTimeout(() => {
+    if (typeof window !== 'undefined') {
       window.location.reload();
-    }, 100);
+    }
   }
 }

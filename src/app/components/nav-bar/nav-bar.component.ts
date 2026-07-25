@@ -82,10 +82,8 @@ export class NavBarComponent {
   }
 
   onReload(): void {
-    this.reloadRequested.emit();
-    // Also trigger window location reload if no subpage handler caught it
-    setTimeout(() => {
+    if (typeof window !== 'undefined') {
       window.location.reload();
-    }, 100);
+    }
   }
 }

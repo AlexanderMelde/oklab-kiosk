@@ -58,10 +58,8 @@ export class App implements OnInit {
   }
 
   onReloadRequested(): void {
-    // Reload active route
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(currentUrl);
-    });
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   }
 }
