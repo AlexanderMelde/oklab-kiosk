@@ -566,8 +566,12 @@ video {
 html, body {
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  width: 100dvw;
+  height: 100%;
+  height: -webkit-fill-available;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
   overflow: hidden;
   touch-action: none;
   overscroll-behavior: none;
@@ -694,10 +698,15 @@ iframe {
 
 .h-screen {
   height: 100vh;
+  height: -webkit-fill-available;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
 }
 
 .max-h-\[85vh\] {
   max-height: 85vh;
+  max-height: 85dvh;
+  max-height: calc(var(--app-height, 100dvh) * 0.85);
 }
 
 .min-h-\[220px\] {
@@ -722,6 +731,8 @@ iframe {
 
 .w-screen {
   width: 100vw;
+  width: 100dvw;
+  width: 100%;
 }
 
 .max-w-3xl {

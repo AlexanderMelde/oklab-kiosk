@@ -20,8 +20,16 @@ export class App implements OnInit {
   currentPath = signal<string>('/');
 
   ngOnInit(): void {
-    // 0. Strict Kiosk Security Lock: Prevent window.open & external redirects
+    // Dynamically calculate visible viewport height to fix mobile browser bar height issues
+    this.updateAppHeight();
     if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => this.updateAppHeight());
+      window.addEventListener('orientationchange', () => this.updateAppHeight());
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => this.updateAppHeight());
+      }
+
+      // 0. Strict Kiosk Security Lock: Prevent window.open & external redirects
       window.open = function() {
         console.warn('Kiosk Lock: Prevented window.open popup attempt.');
         return null;
@@ -55,6 +63,13 @@ export class App implements OnInit {
         // Show navbar on subpages (anything except home '/')
         this.isSubpage.set(path !== '/' && path !== '');
       });
+  }
+
+  private updateAppHeight(): void {
+    if (typeof window !== 'undefined') {
+      const vh = window.innerHeight;
+      document.documentElement.style.setProperty('--app-height', `${vh}px`);
+    }
   }
 
   onReloadRequested(): void {
