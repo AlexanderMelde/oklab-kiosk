@@ -76,7 +76,7 @@ const DE: Translations = {
   },
   home: {
     welcome: 'OK Lab Karlsruhe',
-    subtitle: 'Civic Tech & Open Data Kiosk',
+    subtitle: 'Offene Daten für eine transparente Stadt',
     videosTitle: 'Videos',
     videosDesc: 'Impressionen von unseren Veranstaltungen',
     demosTitle: 'Prototypen',
@@ -110,7 +110,7 @@ const DE: Translations = {
     description: 'Teste dein Glück und erfahre mehr über Open Data & Civic Tech in Karlsruhe. Scanne einfach den QR-Code mit deinem Smartphone, um direkt am Gewinnspiel teilzunehmen!',
     callToAction: 'JETZT MITMACHEN!',
     scanPrompt: 'Scannen & gewinnen',
-    prizesMicrocontrollers: 'Mikrocontroller',
+    prizesMicrocontrollers: 'Mikro&shy;controller',
     prizesSensors: 'Sensoren',
     prizesFans: 'USB-Ventilatoren'
   },
@@ -141,7 +141,7 @@ const EN: Translations = {
   },
   home: {
     welcome: 'OK Lab Karlsruhe',
-    subtitle: 'Open Data für eine transparente Stadt',
+    subtitle: 'Open Data for a Transparent City',
     videosTitle: 'Videos',
     videosDesc: 'Impressions from our events',
     demosTitle: 'Prototypes',
@@ -175,7 +175,7 @@ const EN: Translations = {
     description: 'Test your luck and learn about Open Data & Civic Tech in Karlsruhe. Simply scan the QR code with your smartphone to join the giveaway!',
     callToAction: 'ENTER RAFFLE NOW!',
     scanPrompt: 'Scan to participate',
-    prizesMicrocontrollers: 'Microcontrollers',
+    prizesMicrocontrollers: 'Micro&shy;controllers',
     prizesSensors: 'Sensors',
     prizesFans: 'USB Fans'
   },
