@@ -50,9 +50,16 @@ import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.di
             <h2 class="text-xl sm:text-3xl font-black text-cyan-400 uppercase tracking-tight">
               ⚙️ Kiosk Configuration
             </h2>
-            <span class="text-xs sm:text-sm font-bold text-yellow-400 bg-zinc-800 px-3 py-1 rounded-full border border-yellow-400">
-              Saved to LocalStorage
-            </span>
+            <div class="flex items-center gap-2">
+              <button 
+                (click)="toggleFullscreen()"
+                class="text-xs sm:text-sm font-bold text-cyan-300 bg-zinc-800 hover:bg-zinc-700 px-3 py-1 rounded-full border border-cyan-400 transition-all flex items-center gap-1.5 cursor-pointer">
+                {{ isFullscreen() ? '⤓ EXIT FULLSCREEN' : '⤢ ENTER FULLSCREEN' }}
+              </button>
+              <span class="text-xs sm:text-sm font-bold text-yellow-400 bg-zinc-800 px-3 py-1 rounded-full border border-yellow-400">
+                Saved to LocalStorage
+              </span>
+            </div>
           </div>
 
           <!-- Parameter 1: Promote Subpage — horizontal label + buttons row -->
@@ -209,17 +216,23 @@ import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.di
               {{ generatedUrl() }}
             </div>
 
-            <!-- Action Buttons: Copy URL + Reset Configuration -->
-            <div class="grid grid-cols-2 gap-3 shrink-0">
+            <!-- Action Buttons: Fullscreen + Copy URL + Reset Configuration -->
+            <div class="grid grid-cols-3 gap-3 shrink-0">
+              <button 
+                (click)="toggleFullscreen()"
+                class="bg-cyan-500 hover:bg-cyan-400 text-black py-3 rounded-xl sm:rounded-2xl font-black text-xs sm:text-lg border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95 flex items-center justify-center gap-1">
+                {{ isFullscreen() ? '⤓ EXIT FULLSCREEN' : '⤢ FULLSCREEN' }}
+              </button>
+
               <button 
                 (click)="copyToClipboard()"
-                class="bg-yellow-400 hover:bg-yellow-300 text-black py-3 rounded-xl sm:rounded-2xl font-black text-sm sm:text-xl border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
+                class="bg-yellow-400 hover:bg-yellow-300 text-black py-3 rounded-xl sm:rounded-2xl font-black text-xs sm:text-lg border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
                 {{ copySuccess() ? '✓ COPIED!' : '📋 COPY URL' }}
               </button>
 
               <button 
                 (click)="resetConfig()"
-                class="bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-xl sm:rounded-2xl font-black text-sm sm:text-xl border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
+                class="bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-xl sm:rounded-2xl font-black text-xs sm:text-lg border-2 sm:border-4 border-white shadow-xl transition-transform active:scale-95">
                 {{ resetSuccess() ? '✓ RESET DONE!' : '🔄 RESET CONFIG' }}
               </button>
             </div>
@@ -241,6 +254,7 @@ export class ConfigComponent implements OnInit {
   errorMessage = signal<string>('');
   copySuccess = signal<boolean>(false);
   resetSuccess = signal<boolean>(false);
+  isFullscreen = signal<boolean>(false);
 
   selectedCategory = signal<DemoCategoryId | 'all'>('all');
 
@@ -284,6 +298,50 @@ export class ConfigComponent implements OnInit {
       const firstDemo = this.demoService.demos[0]?.id || null;
       if (firstDemo) {
         this.configService.setPromotedItem(firstDemo);
+      }
+    }
+
+    this.checkFullscreen();
+    if (typeof document !== 'undefined') {
+      document.addEventListener('fullscreenchange', () => this.checkFullscreen());
+      document.addEventListener('webkitfullscreenchange', () => this.checkFullscreen());
+      document.addEventListener('mozfullscreenchange', () => this.checkFullscreen());
+      document.addEventListener('MSFullscreenChange', () => this.checkFullscreen());
+    }
+  }
+
+  private checkFullscreen(): void {
+    if (typeof document !== 'undefined') {
+      const doc = document as any;
+      const isFs = !!(doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement);
+      this.isFullscreen.set(isFs);
+    }
+  }
+
+  toggleFullscreen(): void {
+    if (typeof document === 'undefined') return;
+    const doc = document as any;
+    const docEl = document.documentElement as any;
+
+    if (!doc.fullscreenElement && !doc.webkitFullscreenElement && !doc.mozFullScreenElement && !doc.msFullscreenElement) {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(() => {});
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.mozRequestFullScreen) {
+        docEl.mozRequestFullScreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    } else {
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen().catch(() => {});
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
       }
     }
   }
