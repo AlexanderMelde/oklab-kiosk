@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { QRCodeComponent } from 'angularx-qrcode';
@@ -17,8 +17,8 @@ import { MediaStateService } from '../../services/media-state.service';
       <div class="flex-1 w-full h-full relative bg-black flex items-center justify-center p-2">
         <div class="relative w-full h-full overflow-hidden">
           <iframe 
-            *ngIf="safeUrl"
-            [src]="safeUrl" 
+            *ngIf="renderIframe() && safeUrl()"
+            [src]="safeUrl()" 
             class="w-full h-full border-none pointer-events-none"
             sandbox="allow-scripts allow-same-origin allow-forms"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -69,13 +69,18 @@ export class MediaComponent implements OnInit, OnDestroy {
   readonly configService = inject(ConfigService);
   readonly mediaService = inject(MediaStateService);
 
-  safeUrl: SafeResourceUrl | null = null;
+  safeUrl = signal<SafeResourceUrl | null>(null);
+  renderIframe = signal<boolean>(true);
   private rotationInterval: any = null;
 
   constructor() {
     effect(() => {
       const url = this.mediaService.activeVideo().url;
-      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      this.renderIframe.set(false);
+      setTimeout(() => {
+        this.safeUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+        this.renderIframe.set(true);
+      }, 50);
     });
   }
 

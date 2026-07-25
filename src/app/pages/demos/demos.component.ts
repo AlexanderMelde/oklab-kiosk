@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { QRCodeComponent } from 'angularx-qrcode';
@@ -52,8 +52,8 @@ import { HorizontalScrollDirective } from '../../directives/horizontal-scroll.di
       <!-- Main Iframe Display Container / Non-Embed fallback view -->
       <div class="flex-1 w-full h-full relative bg-zinc-950 flex items-center justify-center sm:p-8 overflow-y-auto">
         <iframe 
-          *ngIf="!demoService.activeDemo().noEmbed && safeUrl"
-          [src]="safeUrl" 
+          *ngIf="renderIframe() && !demoService.activeDemo().noEmbed && safeUrl()"
+          [src]="safeUrl()" 
           class="w-full h-full border-none"
           sandbox="allow-scripts allow-same-origin allow-forms"
           allow="fullscreen; geolocation; camera; microphone">
@@ -127,13 +127,18 @@ export class DemosComponent implements OnInit, OnDestroy {
   readonly configService = inject(ConfigService);
   readonly demoService = inject(DemoStateService);
 
-  safeUrl: SafeResourceUrl | null = null;
+  safeUrl = signal<SafeResourceUrl | null>(null);
+  renderIframe = signal<boolean>(true);
   private rotationInterval: any = null;
 
   constructor() {
     effect(() => {
       const url = this.demoService.activeDemo().url;
-      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      this.renderIframe.set(false);
+      setTimeout(() => {
+        this.safeUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+        this.renderIframe.set(true);
+      }, 50);
     });
   }
 

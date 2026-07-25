@@ -290,8 +290,10 @@ export class DemoStateService {
       this.activeCategory.set(demo.category);
 
       if (updateHash && typeof window !== 'undefined') {
-        const newUrl = window.location.pathname + window.location.search + '#' + demo.id;
-        window.history.replaceState(null, '', newUrl);
+        setTimeout(() => {
+          const newUrl = window.location.pathname + window.location.search + '#' + demo.id;
+          window.history.replaceState(null, '', newUrl);
+        }, 0);
       }
     }
   }
