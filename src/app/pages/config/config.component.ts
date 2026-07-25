@@ -1,8 +1,9 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConfigService, PromotedPage } from '../../services/config.service';
 import { LanguageService } from '../../services/language.service';
+import { DemoStateService, DemoCategoryId } from '../../services/demo-state.service';
 
 @Component({
   selector: 'app-config',
@@ -72,22 +73,62 @@ import { LanguageService } from '../../services/language.service';
             </div>
           </div>
 
-          <!-- Promoted Demo Item — horizontal row, shown only for demos -->
-          <div *ngIf="configService.promotedPage() === 'demos'" class="flex items-center gap-3 bg-black/60 px-3 py-2 rounded-xl border-2 border-yellow-400 shrink-0">
-            <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
-              👉 Demo Item
-            </label>
-            <div class="flex flex-1 gap-2">
-              <button 
-                *ngFor="let itemOpt of demoItemOptions"
-                (click)="onItemSelect(itemOpt.value)"
-                [class.bg-yellow-400]="configService.promotedItem() === itemOpt.value"
-                [class.bg-zinc-800]="configService.promotedItem() !== itemOpt.value"
-                [style.color]="configService.promotedItem() === itemOpt.value ? '#000' : '#fff'"
-                class="flex-1 py-2 px-1 rounded-lg font-bold text-xs sm:text-sm border border-zinc-600 text-center">
-                {{ itemOpt.label }}
-              </button>
+          <!-- Promoted Demo Selection — Intermediary Category Layer + Demo Items -->
+          <div *ngIf="configService.promotedPage() === 'demos'" class="flex flex-col gap-3 bg-black/60 p-3 rounded-xl border-2 border-yellow-400 shrink-0">
+            
+            <!-- Category Intermediary Layer -->
+            <div class="flex items-center gap-3">
+              <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+                👉 Category
+              </label>
+              <div class="flex flex-1 gap-2 overflow-x-auto py-0.5 items-center">
+                <button 
+                  (click)="setCategory('all')"
+                  [class.bg-yellow-400]="selectedCategory() === 'all'"
+                  [class.text-black]="selectedCategory() === 'all'"
+                  [class.border-white]="selectedCategory() === 'all'"
+                  [class.bg-zinc-800]="selectedCategory() !== 'all'"
+                  [class.text-white]="selectedCategory() !== 'all'"
+                  [class.border-zinc-600]="selectedCategory() !== 'all'"
+                  class="py-1.5 px-3 rounded-lg font-bold text-xs sm:text-sm border transition-all text-center whitespace-nowrap shrink-0 mr-2">
+                  🌐 {{ lang.currentLang() === 'de' ? 'Alle Kategorien' : 'All Categories' }}
+                </button>
+                <button 
+                  *ngFor="let cat of demoService.categories"
+                  (click)="setCategory(cat.id)"
+                  [class.bg-yellow-400]="selectedCategory() === cat.id"
+                  [class.text-black]="selectedCategory() === cat.id"
+                  [class.border-white]="selectedCategory() === cat.id"
+                  [class.bg-zinc-800]="selectedCategory() !== cat.id"
+                  [class.text-white]="selectedCategory() !== cat.id"
+                  [class.border-zinc-600]="selectedCategory() !== cat.id"
+                  class="py-1.5 px-3 rounded-lg font-bold text-xs sm:text-sm border transition-all text-center whitespace-nowrap shrink-0">
+                  {{ cat.icon }} {{ getCategoryTitle(cat.titleKey) }}
+                </button>
+              </div>
             </div>
+
+            <!-- Demo Item Layer -->
+            <div class="flex items-center gap-3 border-t border-zinc-800/80 pt-2.5">
+              <label class="text-xs sm:text-sm font-black text-yellow-300 uppercase whitespace-nowrap w-36 sm:w-44 shrink-0">
+                👉 Demo Item
+              </label>
+              <div class="flex flex-1 gap-2.5 overflow-x-auto py-0.5 max-h-24 sm:max-h-28 overflow-y-auto">
+                <button 
+                  *ngFor="let demo of filteredDemos()"
+                  (click)="onItemSelect(demo.id)"
+                  [class.bg-yellow-400]="configService.promotedItem() === demo.id"
+                  [class.text-black]="configService.promotedItem() === demo.id"
+                  [class.border-white]="configService.promotedItem() === demo.id"
+                  [class.bg-zinc-800]="configService.promotedItem() !== demo.id"
+                  [class.text-white]="configService.promotedItem() !== demo.id"
+                  [class.border-zinc-600]="configService.promotedItem() !== demo.id"
+                  class="py-1.5 px-3 rounded-lg font-bold text-xs sm:text-sm border transition-all text-center whitespace-nowrap shrink-0">
+                  {{ demo.title }}
+                </button>
+              </div>
+            </div>
+
           </div>
 
           <!-- Promoted Video Item — horizontal row, shown only for media -->
@@ -190,12 +231,15 @@ import { LanguageService } from '../../services/language.service';
 export class ConfigComponent implements OnInit {
   readonly configService = inject(ConfigService);
   readonly lang = inject(LanguageService);
+  readonly demoService = inject(DemoStateService);
 
   isAuthenticated = signal<boolean>(false);
   passwordInput = '';
   errorMessage = signal<string>('');
   copySuccess = signal<boolean>(false);
   resetSuccess = signal<boolean>(false);
+
+  selectedCategory = signal<DemoCategoryId | 'all'>('all');
 
   readonly promoteOptions: { label: string; value: PromotedPage }[] = [
     { label: 'None', value: null },
@@ -205,17 +249,6 @@ export class ConfigComponent implements OnInit {
     { label: 'ℹ️ About', value: 'about' }
   ];
 
-  readonly demoItemOptions = [
-    { label: 'Default', value: null },
-    { label: 'Auenländ ChatBot', value: 'auenlaend' },
-    { label: 'Klimawatch', value: 'klimawatch' },
-    { label: 'CO₂ runter', value: 'co2runter' },
-    { label: 'Access Map', value: 'access-map' },
-    { label: 'Wo ist Markt?', value: 'wo-ist-markt' },
-    { label: 'OParl Viewer', value: 'oparl-viewer' },
-    { label: 'VerwaltungsTracker', value: 'verwaltungstracker' }
-  ];
-
   readonly mediaItemOptions = [
     { label: 'Default', value: null },
     { label: 'Hack Days 2024', value: '0' },
@@ -223,8 +256,33 @@ export class ConfigComponent implements OnInit {
     { label: 'Hack Days 2026', value: '2' }
   ];
 
+  getCategoryTitle(titleKey: string): string {
+    const t = this.lang.t().demos as Record<string, any>;
+    return t[titleKey] || titleKey;
+  }
+
+  readonly filteredDemos = computed(() => {
+    const cat = this.selectedCategory();
+    if (cat === 'all') {
+      return this.demoService.demos;
+    }
+    return this.demoService.demos.filter(d => d.category === cat);
+  });
+
   ngOnInit(): void {
     this.configService.initConfiguration();
+    const currentItem = this.configService.promotedItem();
+    if (currentItem) {
+      const demo = this.demoService.demos.find(d => d.id === currentItem);
+      if (demo) {
+        this.selectedCategory.set(demo.category);
+      }
+    } else if (this.configService.promotedPage() === 'demos') {
+      const firstDemo = this.demoService.demos[0]?.id || null;
+      if (firstDemo) {
+        this.configService.setPromotedItem(firstDemo);
+      }
+    }
   }
 
   unlock(): void {
@@ -238,7 +296,26 @@ export class ConfigComponent implements OnInit {
 
   onPromoteSelect(value: PromotedPage): void {
     this.configService.setPromotedPage(value);
-    this.configService.setPromotedItem(null);
+    if (value === 'demos') {
+      this.selectedCategory.set('all');
+      const firstDemo = this.demoService.demos[0]?.id || null;
+      this.configService.setPromotedItem(firstDemo);
+    } else {
+      this.configService.setPromotedItem(null);
+    }
+  }
+
+  setCategory(cat: DemoCategoryId | 'all'): void {
+    this.selectedCategory.set(cat);
+    const demos = cat === 'all' 
+      ? this.demoService.demos 
+      : this.demoService.demos.filter(d => d.category === cat);
+    
+    const currentItem = this.configService.promotedItem();
+    const exists = demos.some(d => d.id === currentItem);
+    if (!exists && demos.length > 0) {
+      this.configService.setPromotedItem(demos[0].id);
+    }
   }
 
   onItemSelect(value: string | null): void {

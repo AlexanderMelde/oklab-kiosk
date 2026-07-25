@@ -142,7 +142,6 @@ import { AboutComponent } from '../about/about.component';
           <div class="flex-1 flex flex-col justify-evenly space-y-3 overflow-hidden">
             <!-- Button 1: Demos -->
             <a 
-              *ngIf="configService.promotedPage() !== 'demos'"
               routerLink="/demos"
               class="p-4 rounded-2xl border-4 border-white shadow-lg flex items-center space-x-3 transition-transform active:scale-95 cursor-pointer font-black text-xl md:text-2xl text-white">
               <span class="text-3xl">🚀</span>

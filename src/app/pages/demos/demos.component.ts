@@ -140,7 +140,10 @@ export class DemosComponent implements OnInit, OnDestroy {
     // Select specific demo if promoted via query parameter
     const item = this.configService.promotedItem()?.toLowerCase();
     if (item) {
-      if (item.includes('sensorcity') || item.includes('explorer')) {
+      const exactDemo = this.demoService.demos.find(d => d.id === item);
+      if (exactDemo) {
+        this.demoService.selectDemo(exactDemo.id);
+      } else if (item.includes('sensorcity') || item.includes('explorer')) {
         this.demoService.selectDemo('sensorcity');
       } else if (item.includes('heatmap') || item.includes('heat')) {
         this.demoService.selectDemo('heatmap');
