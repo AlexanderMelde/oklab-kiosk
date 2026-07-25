@@ -35,6 +35,13 @@ export const DEMOS: DemoItem[] = [
     description: 'Interaktive Baumkarte für Karlsruhe mit Informationen zu Baumarten, Alter und Standort.'
   },
   {
+    id: 'baumkataster-stadt',
+    title: '🌲 Baumkataster (Stadt)',
+    url: 'https://geoportal.karlsruhe.de/fachplaene/?page=Baumkataster&views=LK-Gewerbe-Nacht-Legende_MOBILE%2CKarte-Schutzgebiete_MOBILE%2CGr%C3%BCnanlagen-und-Spielpl%C3%A4tze-Hintergrundkarten_DESKTOP%2CGr%C3%BCnanlagen-und-Spielpl%C3%A4tze-Karte_MOBILE%2CLK-Gewerbe-Tag-Karte_MOBILE%2CLK-Stra%C3%9Fenbahn-Tag-Legende_MOBILE%2CWasserschutzgebiete-Karte_MOBILE%2CStartseite_MOBILE%2CStartseite_DESKTOP%2CBaumkataster-Hintergrundkarten_DESKTOP%2CBaumkataster-Hintergrundkarten_MOBILE%2CMen%C3%BC-Rechtliche-Hinweise_MOBILE#widget_2596=active_datasource_id:dataSource_30,center:935618.1892232273%2C6277052.36043303%2C102100,scale:3517.7509411014557,level:16.44140020247474,rotation:0',
+    category: 'environment',
+    description: 'Offizielles Baumkataster im Geoportal der Stadt Karlsruhe mit detaillierten Geodaten zu den städtischen Bäumen.'
+  },
+  {
     id: 'platane',
     title: '💬 Frag die Platane',
     url: 'https://llama.ok-lab-karlsruhe.de/ragdemo/',
@@ -69,6 +76,14 @@ export const DEMOS: DemoItem[] = [
     category: 'environment',
     description: 'Rechner: Wie viel CO2 könnte ich einsparen?'
   },
+  {
+    id: 'stadtplan-heisse-tage',
+    title: '☀️ Stadtplan für heiße Tage',
+    url: 'https://geoportal.karlsruhe.de/stadtplan_heisse_tage_ps04/?page=Karte',
+    category: 'environment',
+    description: 'Der Stadtplan für heiße Tage zeigt Orte in der Stadt, die bei Hitze für Abkühlung sorgen können, zum Beispiel Trinkbrunnen, Wasserspiele, Grünflächen, aber auch öffentliche Gebäude.'
+  },
+
 
   // Kategorie Sensoren
   {
@@ -133,7 +148,7 @@ export const DEMOS: DemoItem[] = [
   },
   {
     id: 'bike-parking',
-    title: '🅿️ Bike Parking Karlsruhe',
+    title: '🅿️ Bike Parking KA',
     url: 'https://maxliesegang.github.io/bike-parking-karlsruhe/',
     category: 'mobility',
     description: 'Interaktive Kartierung der Karlsruher Fahrradstellplätze basierend auf offenen Geodaten. Die Plattform hilft bei der Routenplanung und visualisiert gleichzeitig infrastrukturelle Ausbaubedarfe in der Stadt.'
@@ -161,11 +176,25 @@ export const DEMOS: DemoItem[] = [
     description: 'Wie sieht Karlsruhe für Rollstuhlfahrer aus? Visualisierung der Barrierefreiheit von Karlsruher ÖPNV Haltestellen.'
   },
   {
+    id: 'karlsruhe-barrierefrei',
+    title: '♿ KA Barrierefrei',
+    url: 'https://geoportal.karlsruhe.de/karlsruhe_barrierefrei',
+    category: 'mobility',
+    description: 'Mit dieser App sind alle einfach unterwegs! Entdecken Sie Informationen zur Barrierefreiheit von hunderten Orten in Karlsruhe oder informieren Sie sich, ob Aufzüge gerade fahren oder außer Betrieb sind.'
+  },
+  {
     id: 'osm-live-edit',
     title: '🌐 OSM Live Edit',
     url: 'https://osmlab.github.io/show-me-the-way/',
     category: 'mobility',
     description: 'See OpenStreetMap edits happen in real time.'
+  },
+  {
+    id: 'karlsruhe-3d',
+    title: '🏙️ KA 3D',
+    url: 'https://geoportal.karlsruhe.de/3d/karlsruhe_3d/',
+    category: 'mobility',
+    description: 'Anwendung zur Erkundung von Karlsruhe im fotorealistischen 3D-Stadtmodell'
   },
 
   // Kategorie Kommunalpolitik
