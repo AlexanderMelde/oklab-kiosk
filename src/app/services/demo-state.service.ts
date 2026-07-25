@@ -99,6 +99,13 @@ export const DEMOS: DemoItem[] = [
     category: 'sensors',
     description: 'Heatmap-Visualisierung von Temperatur und Feinstaubwerten in Echtzeit.'
   },
+  {
+    id: 'nachbarschafts-sensor',
+    title: '🏡 Nachbarschafts-Sensor',
+    url: 'https://ok-lab-demo.lovable.app/',
+    category: 'sensors',
+    description: 'Infoseite eines auf dem DAS FEST 2026 vorgestellten Hardware-Prototyps: Misst Luftqualität (CO₂, Feinstaub) und Lärmpegel (Edge-AI) direkt in der Straße – mit Arduino Uno Q, offenen Daten und ohne Tracking.'
+  },
 
   // Kategorie Lokale Versorgung
   {
@@ -290,10 +297,13 @@ export class DemoStateService {
   }
 
   onDemoClick(demoId: string): void {
-    if (this.activeDemoId() === demoId) {
+    const demo = this.findDemo(demoId);
+    if (!demo) return;
+
+    if (this.activeDemoId() === demo.id) {
       this.showQrPopup.set(true);
     } else {
-      this.selectDemo(demoId);
+      this.selectDemo(demo.id);
     }
   }
 }

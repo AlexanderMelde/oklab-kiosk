@@ -99,8 +99,10 @@ export class MediaStateService {
   }
 
   selectVideo(indexOrQuery: number | string, updateHash: boolean = true): void {
+    console.log('[MediaStateService] selectVideo called with:', indexOrQuery);
     const video = this.findVideo(indexOrQuery);
     if (video) {
+      console.log('[MediaStateService] Setting activeVideoId to:', video.id);
       this.activeVideoId.set(video.id);
 
       if (updateHash && typeof window !== 'undefined') {

@@ -10,9 +10,9 @@ export class HorizontalScrollDirective implements OnInit, OnDestroy {
 
   private isMouseDown = false;
   private startX = 0;
+  private startY = 0;
   private startScrollLeft = 0;
-  private isDragging = false;
-  private dragTimeout: any = null;
+  private totalDragDistance = 0;
 
   private onWheel = (e: WheelEvent) => {
     const container = this.el.nativeElement;
@@ -31,8 +31,9 @@ export class HorizontalScrollDirective implements OnInit, OnDestroy {
     if (container.scrollWidth <= container.clientWidth) return;
 
     this.isMouseDown = true;
-    this.isDragging = false;
+    this.totalDragDistance = 0;
     this.startX = e.clientX;
+    this.startY = e.clientY;
     this.startScrollLeft = container.scrollLeft;
   };
 
@@ -40,12 +41,10 @@ export class HorizontalScrollDirective implements OnInit, OnDestroy {
     if (!this.isMouseDown) return;
     const container = this.el.nativeElement;
     const deltaX = e.clientX - this.startX;
+    const deltaY = e.clientY - this.startY;
+    this.totalDragDistance = Math.hypot(deltaX, deltaY);
 
-    if (!this.isDragging && Math.abs(deltaX) > 5) {
-      this.isDragging = true;
-    }
-
-    if (this.isDragging) {
+    if (this.totalDragDistance > 15) {
       container.scrollLeft = this.startScrollLeft - deltaX;
       container.style.cursor = 'grabbing';
       e.preventDefault();
@@ -57,23 +56,16 @@ export class HorizontalScrollDirective implements OnInit, OnDestroy {
       this.isMouseDown = false;
       const container = this.el.nativeElement;
       container.style.cursor = '';
-      if (this.isDragging) {
-        if (this.dragTimeout) clearTimeout(this.dragTimeout);
-        this.dragTimeout = setTimeout(() => {
-          this.isDragging = false;
-        }, 100);
-      }
     }
   };
 
   private onClickCapture = (e: MouseEvent) => {
-    if (this.isDragging) {
+    if (this.totalDragDistance > 15) {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
-      this.isDragging = false;
-      if (this.dragTimeout) clearTimeout(this.dragTimeout);
     }
+    this.totalDragDistance = 0;
   };
 
   ngOnInit(): void {
@@ -95,6 +87,5 @@ export class HorizontalScrollDirective implements OnInit, OnDestroy {
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
     container.removeEventListener('click', this.onClickCapture, true);
-    if (this.dragTimeout) clearTimeout(this.dragTimeout);
   }
 }
