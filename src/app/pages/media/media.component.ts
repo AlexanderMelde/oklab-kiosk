@@ -31,45 +31,41 @@ export const VIDEOS = [
     <div class="h-full w-full bg-black text-white flex flex-col select-none overflow-hidden">
       
       <!-- Top Video Selector Header -->
-      <div class="bg-zinc-900 border-b-4 border-cyan-400 p-4 flex flex-col lg:flex-row items-center justify-between gap-4 z-10 shadow-xl">
-        
-        <!-- Video List Selector Buttons -->
-        <div class="flex items-center space-x-3 overflow-x-auto w-full lg:w-auto py-1">
-          <button 
-            *ngFor="let video of videos; let i = index"
-            (click)="selectVideo(i)"
-            [class.bg-cyan-400]="activeVideoIndex() === i"
-            [class.text-black]="activeVideoIndex() === i"
-            [class.border-white]="activeVideoIndex() === i"
-            [class.bg-zinc-800]="activeVideoIndex() !== i"
-            [class.text-white]="activeVideoIndex() !== i"
-            [class.border-zinc-600]="activeVideoIndex() !== i"
-            class="px-4 py-3 rounded-2xl font-black text-base md:text-xl border-4 transition-all whitespace-normal leading-tight max-w-[210px] md:max-w-[280px] text-left flex items-center space-x-2 shrink-0 active:scale-95">
+      <div class="bg-zinc-900 border-b-4 border-cyan-400 p-4 flex items-center space-x-3 overflow-x-auto w-full z-10 shadow-xl py-2">
+        <button 
+          *ngFor="let video of videos; let i = index"
+          (click)="onButtonClick(i)"
+          [class.bg-cyan-400]="activeVideoIndex() === i"
+          [class.text-black]="activeVideoIndex() === i"
+          [class.border-white]="activeVideoIndex() === i"
+          [class.bg-zinc-800]="activeVideoIndex() !== i"
+          [class.text-white]="activeVideoIndex() !== i"
+          [class.border-zinc-600]="activeVideoIndex() !== i"
+          [class.hover:bg-zinc-700]="activeVideoIndex() !== i"
+          class="px-4 py-2 rounded-2xl font-black text-base md:text-xl border-4 transition-all whitespace-normal leading-tight text-left flex items-center gap-3 shrink-0 active:scale-95 shadow-md">
+          
+          <div class="flex items-center gap-2">
             <span class="text-2xl shrink-0">🎥</span>
-            <span class="line-clamp-2">{{ video.title }}</span>
-          </button>
-        </div>
-
-        <!-- Mobile QR Code Banner -->
-        <div class="flex items-center bg-black border-4 border-yellow-400 rounded-2xl p-2 px-4 space-x-4 shadow-lg shrink-0">
-          <div class="text-right">
-            <div class="text-yellow-400 font-black text-sm md:text-base uppercase leading-tight">
-              {{ lang.t().media.scanToWatch }}
-            </div>
-            <div class="text-gray-300 text-xs md:text-sm font-bold">
-              {{ lang.t().media.watchPhone }}
-            </div>
+            <span class="line-clamp-2 max-w-[160px] md:max-w-[220px]">{{ video.title }}</span>
           </div>
 
-          <div class="bg-white p-1 rounded-xl cursor-pointer hover:scale-105 transition-transform active:scale-95" (click)="showQrPopup.set(true)">
-            <qrcode 
-              [qrdata]="activeVideo().externalUrl" 
-              [width]="70" 
-              [errorCorrectionLevel]="'M'">
-            </qrcode>
+          <!-- Active state QR Code functionality -->
+          <div 
+            *ngIf="activeVideoIndex() === i"
+            class="flex items-center gap-2 pl-3 border-l-2 border-black/20 shrink-0">
+            <div class="bg-white p-1 rounded-xl shadow shrink-0">
+              <qrcode 
+                [qrdata]="video.externalUrl" 
+                [width]="56" 
+                [errorCorrectionLevel]="'M'">
+              </qrcode>
+            </div>
+            <span class="text-xs font-bold uppercase leading-tight max-w-[65px] hidden sm:inline-block text-black/80">
+              📱 {{ lang.t().media.watchPhone }}
+            </span>
           </div>
-        </div>
 
+        </button>
       </div>
 
       <!-- Main Video Player Container with Click Lock Protection -->
@@ -166,6 +162,14 @@ export class MediaComponent implements OnInit, OnDestroy {
 
   activeVideo() {
     return this.videos[this.activeVideoIndex()];
+  }
+
+  onButtonClick(index: number): void {
+    if (this.activeVideoIndex() === index) {
+      this.showQrPopup.set(true);
+    } else {
+      this.selectVideo(index);
+    }
   }
 
   selectVideo(index: number): void {

@@ -4,6 +4,7 @@ import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
+import { DemoStateService } from '../../services/demo-state.service';
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
 
 @Component({
@@ -15,10 +16,10 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
       *ngIf="!configService.isNonInteractive()"
       class="bg-black border-b-4 border-yellow-400 px-4 py-3 flex items-center justify-between shadow-2xl select-none z-40 relative">
       
-      <!-- Left Side: Brand Title (Home only) OR Single Icon Button (Home / Back) -->
-      <div class="flex items-center space-x-4">
+      <!-- Left Side: Brand Title (Home only) OR Single Icon Button & Category Tabs -->
+      <div class="flex items-center space-x-3 md:space-x-4 overflow-x-auto py-0.5">
         <!-- Prominent Large Brand Title (Shown ONLY on Home '/') -->
-        <a *ngIf="isHome()" routerLink="/" class="flex flex-col cursor-pointer group py-1">
+        <a *ngIf="isHome()" routerLink="/" class="flex flex-col justify-center cursor-pointer group py-1">
           <h1 class="text-3xl md:text-5xl font-black tracking-tight text-yellow-400 uppercase leading-none group-hover:text-yellow-300">
             {{ lang.t().home.welcome }}
           </h1>
@@ -27,15 +28,15 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
           </p>
         </a>
 
-        <!-- Subpage Single Icon Button (Replaces old text Home & Back buttons) -->
-        <div *ngIf="!isHome()" class="flex items-center">
+        <!-- Subpage Navigation & Category Tabs -->
+        <div *ngIf="!isHome()" class="flex items-center space-x-3 shrink-0">
           <!-- 1-Level Deep: White SVG Home Icon Button -->
           <button 
             *ngIf="navigationDepth() < 2"
             routerLink="/" 
-            class="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white p-3 rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
+            class="h-16 w-16 p-3 box-border bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
             title="Home">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <svg class="w-8 h-8 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
             </svg>
           </button>
@@ -44,27 +45,45 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
           <button 
             *ngIf="navigationDepth() >= 2"
             (click)="goBack()" 
-            class="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white p-3 rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
+            class="h-16 w-16 p-3 box-border bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
             title="Back">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <svg class="w-8 h-8 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
           </button>
+
+          <!-- Demo Category Tabs in Header Title Bar (Exact box-border h-16 py-3) -->
+          <div *ngIf="isDemos()" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <button 
+              *ngFor="let cat of demoService.categories"
+              (click)="demoService.selectCategory(cat.id)"
+              [class.bg-yellow-400]="demoService.activeCategory() === cat.id"
+              [class.text-black]="demoService.activeCategory() === cat.id"
+              [class.border-white]="demoService.activeCategory() === cat.id"
+              [class.bg-zinc-800]="demoService.activeCategory() !== cat.id"
+              [class.text-white]="demoService.activeCategory() !== cat.id"
+              [class.border-zinc-600]="demoService.activeCategory() !== cat.id"
+              [class.hover:bg-zinc-700]="demoService.activeCategory() !== cat.id"
+              class="h-16 py-3 px-5 sm:px-6 box-border rounded-2xl font-black text-lg sm:text-xl md:text-2xl leading-none border-4 transition-all flex items-center justify-center gap-2 shrink-0 active:scale-95 shadow-lg">
+              <span class="text-xl sm:text-2xl leading-none shrink-0">{{ cat.icon }}</span>
+              <span class="leading-none">{{ lang.t().demos[cat.titleKey] }}</span>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Right Side: Reload & Language Toggle -->
-      <div class="flex items-center space-x-3">
-        <!-- Reload Button (Shown on subpages) -->
+      <div class="flex items-center space-x-3 shrink-0">
+        <!-- Reload Button (Exact box-border h-16 py-3) -->
         <button 
           *ngIf="!isHome() && !isConfig()"
           (click)="onReload()" 
-          class="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2.5 rounded-2xl font-extrabold text-base md:text-lg flex items-center space-x-2 border-3 border-gray-400 transition-transform active:scale-95"
+          class="h-16 py-3 px-4 sm:px-5 box-border bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl font-black text-lg sm:text-xl leading-none flex items-center justify-center space-x-2.5 border-4 border-gray-400 transition-transform active:scale-95 shrink-0"
           title="Reload page">
-          <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+          <svg class="w-7 h-7 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
           </svg>
-          <span class="hidden md:inline">{{ lang.t().nav.reload }}</span>
+          <span class="hidden sm:inline leading-none">{{ lang.t().nav.reload }}</span>
         </button>
 
         <!-- Reusable Language Switcher Component -->
@@ -78,9 +97,11 @@ export class HeaderComponent implements OnInit {
   private router = inject(Router);
   readonly lang = inject(LanguageService);
   readonly configService = inject(ConfigService);
+  readonly demoService = inject(DemoStateService);
 
   isHome = signal<boolean>(true);
   isConfig = signal<boolean>(false);
+  isDemos = signal<boolean>(false);
   navigationDepth = signal<number>(0);
 
   @Output() reloadRequested = new EventEmitter<void>();
@@ -100,6 +121,7 @@ export class HeaderComponent implements OnInit {
     const home = path === '/' || path === '';
     this.isHome.set(home);
     this.isConfig.set(path === '/config');
+    this.isDemos.set(path.includes('/demos'));
 
     if (home) {
       this.navigationDepth.set(0);

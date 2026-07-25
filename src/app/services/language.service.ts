@@ -27,6 +27,8 @@ export interface Translations {
     scanToOpen: string;
     openPhone: string;
     selectDemo: string;
+    tabTrees: string;
+    tabSensors: string;
   };
   media: {
     title: string;
@@ -83,7 +85,9 @@ const DE: Translations = {
     subtitle: 'Live-Demos unserer Projekte',
     scanToOpen: 'Auf dem Smartphone öffnen:',
     openPhone: 'Scannen & selbst ausprobieren',
-    selectDemo: 'Demo auswählen:'
+    selectDemo: 'Demo auswählen:',
+    tabTrees: 'Bäume',
+    tabSensors: 'Sensoren'
   },
   media: {
     title: 'Videos',
@@ -125,7 +129,7 @@ const EN: Translations = {
   },
   home: {
     welcome: 'OK Lab Karlsruhe',
-    subtitle: 'Civic Tech & Open Data Kiosk',
+    subtitle: 'Open Data für eine transparente Stadt',
     videosTitle: 'Videos',
     videosDesc: 'Impressions from our events',
     demosTitle: 'Prototypes',
@@ -140,7 +144,9 @@ const EN: Translations = {
     subtitle: 'Explore live demos created by OK Lab Karlsruhe',
     scanToOpen: 'Open on your smartphone:',
     openPhone: 'Scan to try it on your device',
-    selectDemo: 'Select demo:'
+    selectDemo: 'Select demo:',
+    tabTrees: 'Trees',
+    tabSensors: 'Sensors'
   },
   media: {
     title: 'Videos',
@@ -157,7 +163,7 @@ const EN: Translations = {
   },
   about: {
     title: 'About OK Lab Karlsruhe',
-    tagline: 'Open Data & Civic Tech for a Better Karlsruhe',
+    tagline: 'Open Data for a Transparent City',
     whoWeAreTitle: 'Who We Are',
     whoWeAreText: 'We are a volunteer community of citizens, developers, and designers. Part of "Code for Germany" & "Open Knowledge Foundation Germany", leveraging technology for the public good.',
     pillarsTitle: 'Our 3 Pillars',
