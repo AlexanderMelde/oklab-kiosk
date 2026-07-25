@@ -110,7 +110,7 @@ const DE: Translations = {
     description: 'Teste dein Glück und erfahre mehr über Open Data & Civic Tech in Karlsruhe. Scanne einfach den QR-Code mit deinem Smartphone, um direkt am Gewinnspiel teilzunehmen!',
     callToAction: 'JETZT MITMACHEN!',
     scanPrompt: 'Scannen & gewinnen',
-    prizesMicrocontrollers: 'Mikro&shy;controller',
+    prizesMicrocontrollers: 'Mikro­controller',
     prizesSensors: 'Sensoren',
     prizesFans: 'USB-Ventilatoren'
   },
@@ -175,7 +175,7 @@ const EN: Translations = {
     description: 'Test your luck and learn about Open Data & Civic Tech in Karlsruhe. Simply scan the QR code with your smartphone to join the giveaway!',
     callToAction: 'ENTER RAFFLE NOW!',
     scanPrompt: 'Scan to participate',
-    prizesMicrocontrollers: 'Micro&shy;controllers',
+    prizesMicrocontrollers: 'Micro­controllers',
     prizesSensors: 'Sensors',
     prizesFans: 'USB Fans'
   },
