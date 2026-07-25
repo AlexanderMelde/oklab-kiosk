@@ -36,8 +36,8 @@ import { MediaStateService } from '../../services/media-state.service';
     <div 
       *ngIf="mediaService.showQrPopup()"
       (click)="mediaService.showQrPopup.set(false)"
-      class="fixed inset-0 z-50 bg-black/85 flex items-center justify-center">
-      <div (click)="$event.stopPropagation()" class="relative bg-zinc-900 border-4 border-yellow-400 rounded-3xl p-8 flex flex-col items-center gap-5 shadow-2xl max-w-sm w-full mx-4">
+      class="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4">
+      <div class="relative bg-zinc-900 border-4 border-yellow-400 rounded-3xl p-8 flex flex-col items-center gap-5 shadow-2xl max-w-sm w-full mx-4">
         <button 
           (click)="mediaService.showQrPopup.set(false)"
           class="absolute top-3 right-3 text-white bg-zinc-700 hover:bg-zinc-600 rounded-full w-9 h-9 flex items-center justify-center font-black text-lg leading-none">

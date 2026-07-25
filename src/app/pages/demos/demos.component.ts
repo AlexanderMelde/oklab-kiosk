@@ -91,7 +91,7 @@ import { DemoStateService } from '../../services/demo-state.service';
       *ngIf="demoService.showQrPopup()"
       (click)="demoService.showQrPopup.set(false)"
       class="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4">
-      <div (click)="$event.stopPropagation()" class="relative bg-zinc-900 border-4 border-cyan-400 rounded-3xl p-6 sm:p-8 flex flex-col items-center gap-4 shadow-2xl max-w-md w-full mx-auto">
+      <div class="relative bg-zinc-900 border-4 border-cyan-400 rounded-3xl p-6 sm:p-8 flex flex-col items-center gap-4 shadow-2xl max-w-md w-full mx-auto">
         <button 
           (click)="demoService.showQrPopup.set(false)"
           class="absolute top-3 right-3 text-white bg-zinc-700 hover:bg-zinc-600 rounded-full w-9 h-9 flex items-center justify-center font-black text-lg leading-none">
