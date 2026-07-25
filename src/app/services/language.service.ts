@@ -27,8 +27,11 @@ export interface Translations {
     scanToOpen: string;
     openPhone: string;
     selectDemo: string;
-    tabTrees: string;
+    tabEnvironment: string;
     tabSensors: string;
+    tabSupply: string;
+    tabMobility: string;
+    tabPolitics: string;
   };
   media: {
     title: string;
@@ -86,8 +89,11 @@ const DE: Translations = {
     scanToOpen: 'Auf dem Smartphone öffnen:',
     openPhone: 'Scannen & selbst ausprobieren',
     selectDemo: 'Demo auswählen:',
-    tabTrees: 'Bäume',
-    tabSensors: 'Sensoren'
+    tabEnvironment: 'Umwelt',
+    tabSensors: 'Sensoren',
+    tabSupply: 'Lokale Versorgung',
+    tabMobility: 'Verkehr & Mobilität',
+    tabPolitics: 'Kommunalpolitik'
   },
   media: {
     title: 'Videos',
@@ -145,8 +151,11 @@ const EN: Translations = {
     scanToOpen: 'Open on your smartphone:',
     openPhone: 'Scan to try it on your device',
     selectDemo: 'Select demo:',
-    tabTrees: 'Trees',
-    tabSensors: 'Sensors'
+    tabEnvironment: 'Environment',
+    tabSensors: 'Sensors',
+    tabSupply: 'Local Supply',
+    tabMobility: 'Mobility & Transport',
+    tabPolitics: 'Local Politics'
   },
   media: {
     title: 'Videos',

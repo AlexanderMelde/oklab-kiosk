@@ -207,9 +207,13 @@ export class ConfigComponent implements OnInit {
 
   readonly demoItemOptions = [
     { label: 'Default', value: null },
-    { label: 'Baumkataster', value: 'baumkataster' },
-    { label: 'SensorCity', value: 'sensorcity' },
-    { label: 'Heatmap', value: 'heatmap' }
+    { label: 'Auenländ ChatBot', value: 'auenlaend' },
+    { label: 'Klimawatch', value: 'klimawatch' },
+    { label: 'CO₂ runter', value: 'co2runter' },
+    { label: 'Access Map', value: 'access-map' },
+    { label: 'Wo ist Markt?', value: 'wo-ist-markt' },
+    { label: 'OParl Viewer', value: 'oparl-viewer' },
+    { label: 'VerwaltungsTracker', value: 'verwaltungstracker' }
   ];
 
   readonly mediaItemOptions = [
