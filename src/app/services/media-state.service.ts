@@ -69,23 +69,37 @@ export class MediaStateService {
     }
   }
 
-  selectVideo(index: number, updateHash: boolean = true): void {
-    if (index >= 0 && index < this.videos.length) {
-      this.activeVideoIndex.set(index);
+  selectVideo(index: number | string, updateHash: boolean = true): void {
+    let numericIndex = -1;
+
+    if (typeof index === 'string') {
+      const idx = this.videos.findIndex(v => v.id.toLowerCase() === index.toLowerCase());
+      if (idx !== -1) {
+        numericIndex = idx;
+      } else if (!isNaN(Number(index))) {
+        numericIndex = Number(index);
+      }
+    } else {
+      numericIndex = Number(index);
+    }
+
+    if (numericIndex >= 0 && numericIndex < this.videos.length) {
+      this.activeVideoIndex.set(numericIndex);
 
       if (updateHash && typeof window !== 'undefined') {
-        const videoId = this.videos[index].id;
+        const videoId = this.videos[numericIndex].id;
         const newUrl = window.location.pathname + window.location.search + '#' + videoId;
         window.history.replaceState(null, '', newUrl);
       }
     }
   }
 
-  onButtonClick(index: number): void {
-    if (this.activeVideoIndex() === index) {
+  onButtonClick(index: number | string): void {
+    const numIdx = typeof index === 'string' ? Number(index) : index;
+    if (this.activeVideoIndex() === numIdx) {
       this.showQrPopup.set(true);
     } else {
-      this.selectVideo(index);
+      this.selectVideo(numIdx);
     }
   }
 }
