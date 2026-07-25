@@ -9,7 +9,6 @@ export interface DemoItem {
   category: DemoCategoryId;
   description: string;
   noEmbed?: boolean;
-  aliases?: string[];
 }
 
 export interface DemoCategory {
@@ -40,8 +39,7 @@ export const DEMOS: DemoItem[] = [
     title: '💬 Frag die Platane',
     url: 'https://llama.ok-lab-karlsruhe.de/ragdemo/',
     category: 'environment',
-    description: 'RAG-basiertes Sprach-Interface für Fragen rund um Bäume und Umwelt in Karlsruhe.',
-    aliases: ['frag', 'ragdemo']
+    description: 'RAG-basiertes Sprach-Interface für Fragen rund um Bäume und Umwelt in Karlsruhe.'
   },
   {
     id: 'papperlapp',
@@ -55,8 +53,7 @@ export const DEMOS: DemoItem[] = [
     title: '🐸 Auenländ ChatBot',
     url: 'https://auenlaend.ok-lab-karlsruhe.de/',
     category: 'environment',
-    description: 'Ein zivilgesellschaftliches Frontend-Projekt für den KI-Umwelt-Chatbot KarlA. Es visualisiert komplexe ökologische Daten der Karlsruher Rheinauen und fördert interaktives Naturverständnis.',
-    aliases: ['karla']
+    description: 'Ein zivilgesellschaftliches Frontend-Projekt für den KI-Umwelt-Chatbot KarlA. Es visualisiert komplexe ökologische Daten der Karlsruher Rheinauen und fördert interaktives Naturverständnis.'
   },
   {
     id: 'klimawatch',
@@ -79,16 +76,14 @@ export const DEMOS: DemoItem[] = [
     title: '🌐 Sensor.community',
     url: 'https://maps.sensor.community/',
     category: 'sensors',
-    description: 'Sensor.community ist ein von vielen Mitwirkenden betriebenes, globales Sensornetzwerk, das open data Umweltdaten generiert.',
-    aliases: ['community']
+    description: 'Sensor.community ist ein von vielen Mitwirkenden betriebenes, globales Sensornetzwerk, das open data Umweltdaten generiert.'
   },
   {
     id: 'sensorcity',
     title: '⚡ SensorCity Explorer',
     url: 'https://maxliesegang.github.io/ka-sensorcity-explorer/',
     category: 'sensors',
-    description: 'Erkundungstool für Umwelt- und Feinstaub-Sensoren im Stadtgebiet Karlsruhe.',
-    aliases: ['explorer']
+    description: 'Erkundungstool für Umwelt- und Feinstaub-Sensoren im Stadtgebiet Karlsruhe.'
   },
   {
     id: 'sensorcity-dashboard',
@@ -127,8 +122,7 @@ export const DEMOS: DemoItem[] = [
     title: '🚴 Bike Accident Map',
     url: 'https://maxliesegang.github.io/ppka-bike-accident-map/',
     category: 'mobility',
-    description: 'Spezialisierte Mapping-Anwendung zur punktgenauen Visualisierung von Fahrradunfällen in Karlsruhe. Das Werkzeug dient der Identifikation urbaner Gefahrenzonen und unterstützt datengetriebene Verkehrspolitik.',
-    aliases: ['ppka', 'accident']
+    description: 'Spezialisierte Mapping-Anwendung zur punktgenauen Visualisierung von Fahrradunfällen in Karlsruhe. Das Werkzeug dient der Identifikation urbaner Gefahrenzonen und unterstützt datengetriebene Verkehrspolitik.'
   },
   {
     id: 'bike-parking',
@@ -164,8 +158,7 @@ export const DEMOS: DemoItem[] = [
     title: '🌐 OSM Live Edit',
     url: 'https://osmlab.github.io/show-me-the-way/',
     category: 'mobility',
-    description: 'See OpenStreetMap edits happen in real time.',
-    aliases: ['show-me-the-way']
+    description: 'See OpenStreetMap edits happen in real time.'
   },
 
   // Kategorie Kommunalpolitik
@@ -266,27 +259,11 @@ export class DemoStateService {
     const exact = this.demos.find(d => d.id.toLowerCase() === q);
     if (exact) return exact;
 
-    // 2. Exact alias match
-    const aliasMatch = this.demos.find(d => d.aliases?.some(a => a.toLowerCase() === q));
-    if (aliasMatch) return aliasMatch;
-
-    // 3. Substring match on ID or query
-    const idMatch = this.demos.find(d => {
+    // 2. Substring match on ID or query
+    return this.demos.find(d => {
       const id = d.id.toLowerCase();
       return id.includes(q) || q.includes(id);
     });
-    if (idMatch) return idMatch;
-
-    // 4. Substring match on alias
-    const aliasSubstring = this.demos.find(d =>
-      d.aliases?.some(a => {
-        const alias = a.toLowerCase();
-        return alias.includes(q) || q.includes(alias);
-      })
-    );
-    if (aliasSubstring) return aliasSubstring;
-
-    return undefined;
   }
 
   selectCategory(catId: DemoCategoryId): void {

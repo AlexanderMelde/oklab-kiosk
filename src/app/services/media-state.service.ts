@@ -5,7 +5,6 @@ export interface VideoItem {
   title: string;
   url: string;
   externalUrl: string;
-  aliases?: string[];
 }
 
 export const VIDEOS: VideoItem[] = [
@@ -13,22 +12,19 @@ export const VIDEOS: VideoItem[] = [
     id: 'hackdays2026',
     title: 'Hackdays 2026',
     url: 'https://www.youtube-nocookie.com/embed/jw0WmJZ2Jao?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
-    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao',
-    aliases: ['2026']
+    externalUrl: 'https://www.youtube.com/watch?v=jw0WmJZ2Jao'
   },
   {
     id: 'dasfest2025',
     title: 'DAS FEST 2025',
     url: 'https://www.youtube-nocookie.com/embed/nlldj7bKl5A?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
-    externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A',
-    aliases: ['2025', 'fest']
+    externalUrl: 'https://www.youtube.com/watch?v=nlldj7bKl5A'
   },
   {
     id: 'hackdays2024',
     title: 'Hackdays 2024',
     url: 'https://www.youtube-nocookie.com/embed/289RJwps2Sk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1',
-    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk',
-    aliases: ['2024']
+    externalUrl: 'https://www.youtube.com/watch?v=289RJwps2Sk'
   }
 ];
 
@@ -78,19 +74,12 @@ export class MediaStateService {
     const exact = this.videos.find(v => v.id.toLowerCase() === q);
     if (exact) return exact;
 
-    // 2. Exact Alias
-    const aliasMatch = this.videos.find(v => v.aliases?.some(a => a.toLowerCase() === q));
-    if (aliasMatch) return aliasMatch;
-
-    // 3. Substring match on ID or Title
-    const substring = this.videos.find(v => {
+    // 2. Substring match on ID or Title
+    return this.videos.find(v => {
       const id = v.id.toLowerCase();
       const title = v.title.toLowerCase();
       return id.includes(q) || q.includes(id) || title.includes(q);
     });
-    if (substring) return substring;
-
-    return undefined;
   }
 
   private checkUrlHash(): void {
