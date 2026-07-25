@@ -2,21 +2,23 @@ import { Component, inject, EventEmitter, Output, OnInit, signal } from '@angula
 import { CommonModule, Location } from '@angular/common';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { LanguageService } from '../../services/language.service';
 import { ConfigService } from '../../services/config.service';
 import { DemoStateService } from '../../services/demo-state.service';
+import { MediaStateService } from '../../services/media-state.service';
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, LanguageToggleComponent],
+  imports: [CommonModule, RouterLink, LanguageToggleComponent, QRCodeComponent],
   template: `
     <header 
       *ngIf="!configService.isNonInteractive()"
       class="bg-black border-b-4 border-yellow-400 px-4 py-3 flex items-center justify-between shadow-2xl select-none z-40 relative">
       
-      <!-- Left Side: Brand Title (Home only) OR Single Icon Button & Category Tabs -->
+      <!-- Left Side: Brand Title (Home only) OR Single Icon Button & Category/Media Tabs -->
       <div class="flex items-center space-x-3 md:space-x-4 overflow-x-auto py-0.5">
         <!-- Prominent Large Brand Title (Shown ONLY on Home '/') -->
         <a *ngIf="isHome()" routerLink="/" class="flex flex-col justify-center cursor-pointer group py-1">
@@ -52,7 +54,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
             </svg>
           </button>
 
-          <!-- Demo Category Tabs in Header Title Bar (Exact box-border h-16 py-3) -->
+          <!-- Demo Category Tabs in Header Title Bar -->
           <div *ngIf="isDemos()" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
             <button 
               *ngFor="let cat of demoService.categories"
@@ -69,21 +71,58 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
               <span class="leading-none">{{ lang.t().demos[cat.titleKey] }}</span>
             </button>
           </div>
+
+          <!-- Video Selection Buttons in Header Title Bar -->
+          <div *ngIf="isMedia()" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <button 
+              *ngFor="let video of mediaService.videos; let i = index"
+              (click)="mediaService.onButtonClick(i)"
+              [class.bg-cyan-400]="mediaService.activeVideoIndex() === i"
+              [class.text-black]="mediaService.activeVideoIndex() === i"
+              [class.border-white]="mediaService.activeVideoIndex() === i"
+              [class.bg-zinc-800]="mediaService.activeVideoIndex() !== i"
+              [class.text-white]="mediaService.activeVideoIndex() !== i"
+              [class.border-zinc-600]="mediaService.activeVideoIndex() !== i"
+              [class.hover:bg-zinc-700]="mediaService.activeVideoIndex() !== i"
+              class="h-16 py-2 px-4 sm:px-5 box-border rounded-2xl font-black text-lg sm:text-xl md:text-2xl leading-none border-4 transition-all flex items-center justify-center gap-3 shrink-0 active:scale-95 shadow-lg">
+              
+              <div class="flex items-center gap-2">
+                <span class="text-xl sm:text-2xl leading-none shrink-0">🎥</span>
+                <span class="leading-none whitespace-nowrap">{{ video.title }}</span>
+              </div>
+
+              <!-- Active state QR Code functionality -->
+              <div 
+                *ngIf="mediaService.activeVideoIndex() === i"
+                class="flex items-center gap-2 pl-3 border-l-2 border-black/20 shrink-0">
+                <div class="bg-white p-1 rounded-xl shadow shrink-0 flex items-center justify-center">
+                  <qrcode 
+                    [qrdata]="video.externalUrl" 
+                    [width]="44" 
+                    [errorCorrectionLevel]="'M'">
+                  </qrcode>
+                </div>
+                <span class="text-xs font-bold uppercase leading-tight max-w-[65px] hidden sm:inline-block text-black/80">
+                  📱 {{ lang.t().media.watchPhone }}
+                </span>
+              </div>
+
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Right Side: Reload & Language Toggle -->
       <div class="flex items-center space-x-3 shrink-0">
-        <!-- Reload Button (Exact box-border h-16 py-3) -->
+        <!-- Reload Button (Identical in size and border to Home button: h-16 w-16, border-4 border-white) -->
         <button 
           *ngIf="!isHome() && !isConfig()"
           (click)="onReload()" 
-          class="h-16 py-3 px-4 sm:px-5 box-border bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl font-black text-lg sm:text-xl leading-none flex items-center justify-center space-x-2.5 border-4 border-gray-400 transition-transform active:scale-95 shrink-0"
+          class="h-16 w-16 p-3 box-border bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-white rounded-2xl border-4 border-white shadow-lg transition-transform active:scale-95 flex items-center justify-center shrink-0"
           title="Reload page">
-          <svg class="w-7 h-7 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+          <svg class="w-8 h-8 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
           </svg>
-          <span class="hidden sm:inline leading-none">{{ lang.t().nav.reload }}</span>
         </button>
 
         <!-- Reusable Language Switcher Component -->
@@ -98,10 +137,12 @@ export class HeaderComponent implements OnInit {
   readonly lang = inject(LanguageService);
   readonly configService = inject(ConfigService);
   readonly demoService = inject(DemoStateService);
+  readonly mediaService = inject(MediaStateService);
 
   isHome = signal<boolean>(true);
   isConfig = signal<boolean>(false);
   isDemos = signal<boolean>(false);
+  isMedia = signal<boolean>(false);
   navigationDepth = signal<number>(0);
 
   @Output() reloadRequested = new EventEmitter<void>();
@@ -122,6 +163,7 @@ export class HeaderComponent implements OnInit {
     this.isHome.set(home);
     this.isConfig.set(path === '/config');
     this.isDemos.set(path.includes('/demos'));
+    this.isMedia.set(path.includes('/media'));
 
     if (home) {
       this.navigationDepth.set(0);
