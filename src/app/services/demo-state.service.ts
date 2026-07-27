@@ -72,7 +72,7 @@ export const DEMOS: DemoItem[] = [
   {
     id: 'co2runter',
     title: '📉 CO₂ runter',
-    url: 'https://co2runter.ok-lab-karlsruhe.de/',
+    url: 'https://co2runter.karlsruhe.de',
     category: 'environment',
     description: 'Rechner: Wie viel CO2 könnte ich einsparen?'
   },
